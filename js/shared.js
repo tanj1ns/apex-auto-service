@@ -21,6 +21,344 @@
 
   let bootstrapCache = null;
   let toastTimer = null;
+  let staticMode = false;
+  const DEMO_DB_KEY = 'apex_static_demo_db_v1';
+  const DEMO_SESSION_KEY = 'apex_static_demo_user_v1';
+
+  function getDefaultDemoDb() {
+    const d = window.APEX_DATA || {};
+    const now = new Date().toISOString();
+    return {
+      nextId: 100,
+      settings: {
+        site_name: 'АПЕКС АВТО',
+        hero_kicker: 'Сертифицированный техцентр • Сохраняем гарантию дилера',
+        hero_title: 'Техцентр полного цикла с прозрачной сметой до начала работ',
+        hero_subtitle: 'Плановое ТО, компьютерная диагностика, ремонт тормозной системы, подвески, ДВС и АКПП. Присылаем фото и видео каждого этапа в Telegram.',
+        promo_badge: 'АКЦИЯ',
+        promo_text: 'Диагностика ходовой по 42 точкам — 0 ₽ при прохождении ТО',
+        phone: '+7 (495) 123-45-67',
+        email: 'service@apex-auto.example',
+        address: 'г. Москва, ул. Автозаводская, д. 23, стр. 4',
+        address_hint: 'Въезд через шлагбаум №2, вывеска «АПЕКС АВТО»',
+        open_hour: '8',
+        close_hour: '21',
+        warranty_months: '24',
+        posts_count: '6',
+        rating_score: '4.9',
+        reviews_count: '642',
+        telegram_bot_token: '',
+        telegram_chat_id: ''
+      },
+      brands: d.brands || [],
+      categories: d.categories || [],
+      services: (d.services || []).map((s, idx) => ({ ...s, slug: s.id, id: idx + 1 })),
+      cases: (d.cases || []).map((c, idx) => ({ ...c, caseCode: c.id, id: idx + 1 })),
+      reviews: (d.reviews || []).map((r, idx) => ({ ...r, id: idx + 1 })),
+      faq: (d.faq || []).map((f, idx) => ({ ...f, id: idx + 1 })),
+      users: [
+        { id: 1, name: 'Администратор АПЕКС', email: 'admin@apex-auto.ru', phone: '+7 (495) 123-45-67', car: '', password: 'admin12345', role: 'admin', created_at: now },
+        { id: 2, name: 'Алексей Морозов', email: 'client@apex-auto.ru', phone: '+7 (926) 555-12-34', car: 'Volkswagen Tiguan 2020', password: 'client12345', role: 'user', created_at: now }
+      ],
+      bookings: [
+        {
+          id: 1,
+          user_id: 2,
+          name: 'Алексей Морозов',
+          phone: '+7 (926) 555-12-34',
+          car: 'Volkswagen Tiguan 2020',
+          service: 'Плановое ТО / Замена масла',
+          visit_day: 'Завтра',
+          visit_time: '09:00–12:00',
+          comment: 'Класс авто: Кроссовер. Масло 5W-30 + все фильтры.',
+          status: 'confirmed',
+          admin_note: 'Пост №2 зарезервирован на 10:00, фильтры Mann в наличии.',
+          telegram_sent: 0,
+          created_at: now
+        }
+      ]
+    };
+  }
+
+  function loadDemoDb() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(DEMO_DB_KEY) || 'null');
+      if (raw && Array.isArray(raw.services) && Array.isArray(raw.users)) return raw;
+    } catch {
+      // ignore
+    }
+    const fresh = getDefaultDemoDb();
+    localStorage.setItem(DEMO_DB_KEY, JSON.stringify(fresh));
+    return fresh;
+  }
+
+  function saveDemoDb(db) {
+    localStorage.setItem(DEMO_DB_KEY, JSON.stringify(db));
+  }
+
+  function getDemoUser(db) {
+    const id = Number(localStorage.getItem(DEMO_SESSION_KEY) || 0);
+    if (!id) return null;
+    const u = db.users.find((x) => x.id === id);
+    if (!u) return null;
+    return { id: u.id, name: u.name, email: u.email, phone: u.phone, car: u.car, role: u.role };
+  }
+
+  async function staticDemoApi(url, options = {}) {
+    const method = (options.method || 'GET').toUpperCase();
+    const body = typeof options.body === 'string' ? JSON.parse(options.body || '{}') : (options.body || {});
+    const db = loadDemoDb();
+    const user = getDemoUser(db);
+
+    if (method === 'GET' && url === '/api/bootstrap') {
+      const publicSettings = { ...db.settings };
+      publicSettings.telegram_configured = Boolean(db.settings.telegram_bot_token && db.settings.telegram_chat_id);
+      delete publicSettings.telegram_bot_token;
+      delete publicSettings.telegram_chat_id;
+      return {
+        ok: true,
+        offlineMode: true,
+        settings: publicSettings,
+        brands: db.brands,
+        categories: db.categories,
+        services: db.services,
+        cases: db.cases,
+        reviews: db.reviews,
+        faq: db.faq,
+        user
+      };
+    }
+
+    if (method === 'POST' && url === '/api/auth/login') {
+      const email = String(body.email || '').trim().toLowerCase();
+      const password = String(body.password || '');
+      const found = db.users.find((u) => u.email.toLowerCase() === email && u.password === password);
+      if (!found) throw new Error('Неверный email или пароль');
+      localStorage.setItem(DEMO_SESSION_KEY, String(found.id));
+      return { ok: true, user: { id: found.id, name: found.name, email: found.email, phone: found.phone, car: found.car, role: found.role } };
+    }
+
+    if (method === 'POST' && url === '/api/auth/register') {
+      const email = String(body.email || '').trim().toLowerCase();
+      if (!email || !body.name || String(body.password || '').length < 6) {
+        throw new Error('Заполните имя, email и пароль (от 6 символов)');
+      }
+      if (db.users.some((u) => u.email.toLowerCase() === email)) {
+        throw new Error('Пользователь с таким email уже зарегистрирован');
+      }
+      const created = {
+        id: ++db.nextId,
+        name: String(body.name).trim(),
+        email,
+        phone: String(body.phone || '').trim(),
+        car: String(body.car || '').trim(),
+        password: String(body.password),
+        role: 'user',
+        created_at: new Date().toISOString()
+      };
+      db.users.push(created);
+      saveDemoDb(db);
+      localStorage.setItem(DEMO_SESSION_KEY, String(created.id));
+      return { ok: true, user: { id: created.id, name: created.name, email: created.email, phone: created.phone, car: created.car, role: created.role } };
+    }
+
+    if (method === 'POST' && url === '/api/auth/logout') {
+      localStorage.removeItem(DEMO_SESSION_KEY);
+      return { ok: true };
+    }
+
+    if (method === 'POST' && url === '/api/bookings') {
+      const item = {
+        id: ++db.nextId,
+        user_id: user ? user.id : null,
+        name: String(body.name || '').trim(),
+        phone: String(body.phone || '').trim(),
+        car: String(body.car || '').trim(),
+        service: String(body.service || 'Консультация').trim(),
+        visit_day: String(body.day || '').trim(),
+        visit_time: String(body.time || '').trim(),
+        comment: String(body.comment || '').trim(),
+        status: 'new',
+        admin_note: '',
+        telegram_sent: 0,
+        created_at: new Date().toISOString()
+      };
+      db.bookings.unshift(item);
+      saveDemoDb(db);
+      return { ok: true, bookingId: item.id, telegramSent: false, demoMode: true };
+    }
+
+    if (method === 'GET' && url === '/api/account/bookings') {
+      if (!user) throw new Error('Необходима авторизация');
+      const list = db.bookings.filter((b) => b.user_id === user.id || (user.phone && b.phone === user.phone));
+      return { ok: true, bookings: list };
+    }
+
+    if (method === 'PUT' && url === '/api/account/profile') {
+      if (!user) throw new Error('Необходима авторизация');
+      const u = db.users.find((x) => x.id === user.id);
+      if (u) {
+        u.name = String(body.name || u.name).trim();
+        u.phone = String(body.phone || '').trim();
+        u.car = String(body.car || '').trim();
+        saveDemoDb(db);
+      }
+      return { ok: true };
+    }
+
+    if (url.startsWith('/api/admin/')) {
+      if (!user || user.role !== 'admin') throw new Error('Доступ разрешён только администратору');
+
+      if (method === 'GET' && url === '/api/admin/overview') {
+        return {
+          ok: true,
+          stats: {
+            newBookings: db.bookings.filter((b) => b.status === 'new').length,
+            totalBookings: db.bookings.length,
+            servicesCount: db.services.length,
+            usersCount: db.users.length
+          },
+          bookings: db.bookings,
+          services: db.services,
+          cases: db.cases,
+          reviews: db.reviews,
+          faq: db.faq,
+          settings: db.settings,
+          users: db.users.map(({ password: _p, ...rest }) => rest)
+        };
+      }
+
+      if (method === 'PUT' && url === '/api/admin/settings') {
+        Object.assign(db.settings, body);
+        saveDemoDb(db);
+        return { ok: true };
+      }
+
+      if (method === 'POST' && url === '/api/admin/telegram/test') {
+        return { ok: true, message: 'В статическом демо-режиме отправка в Telegram эмулируется (работает на Node.js сервере)' };
+      }
+
+      if (method === 'POST' && url === '/api/admin/upload') {
+        return { ok: true, path: String(body.dataUrl || 'images/hero.jpg') };
+      }
+
+      const bMatch = url.match(/^\/api\/admin\/bookings\/(\d+)$/);
+      if (bMatch) {
+        const id = Number(bMatch[1]);
+        if (method === 'PATCH') {
+          const b = db.bookings.find((x) => x.id === id);
+          if (b) {
+            if (body.status) b.status = body.status;
+            if (body.adminNote !== undefined) b.admin_note = String(body.adminNote);
+            saveDemoDb(db);
+          }
+          return { ok: true };
+        }
+        if (method === 'DELETE') {
+          db.bookings = db.bookings.filter((x) => x.id !== id);
+          saveDemoDb(db);
+          return { ok: true };
+        }
+      }
+
+      if (method === 'POST' && url === '/api/admin/services') {
+        const created = { id: ++db.nextId, slug: `srv-${Date.now()}`, ...body, price: Number(body.price) || 0, hours: Number(body.hours) || 1 };
+        db.services.push(created);
+        saveDemoDb(db);
+        return { ok: true, id: created.id };
+      }
+      const sMatch = url.match(/^\/api\/admin\/services\/(\d+)$/);
+      if (sMatch) {
+        const id = Number(sMatch[1]);
+        if (method === 'PUT') {
+          const s = db.services.find((x) => x.id === id);
+          if (s) Object.assign(s, body, { price: Number(body.price) || 0, hours: Number(body.hours) || 1 });
+          saveDemoDb(db);
+        } else if (method === 'DELETE') {
+          db.services = db.services.filter((x) => x.id !== id);
+          saveDemoDb(db);
+        }
+        return { ok: true };
+      }
+
+      if (method === 'POST' && url === '/api/admin/cases') {
+        const created = { id: ++db.nextId, ...body };
+        db.cases.unshift(created);
+        saveDemoDb(db);
+        return { ok: true, id: created.id };
+      }
+      const cMatch = url.match(/^\/api\/admin\/cases\/(\d+)$/);
+      if (cMatch) {
+        const id = Number(cMatch[1]);
+        if (method === 'PUT') {
+          const c = db.cases.find((x) => x.id === id);
+          if (c) Object.assign(c, body);
+          saveDemoDb(db);
+        } else if (method === 'DELETE') {
+          db.cases = db.cases.filter((x) => x.id !== id);
+          saveDemoDb(db);
+        }
+        return { ok: true };
+      }
+
+      if (method === 'POST' && url === '/api/admin/reviews') {
+        const created = { id: ++db.nextId, ...body };
+        db.reviews.unshift(created);
+        saveDemoDb(db);
+        return { ok: true, id: created.id };
+      }
+      const rMatch = url.match(/^\/api\/admin\/reviews\/(\d+)$/);
+      if (rMatch) {
+        const id = Number(rMatch[1]);
+        if (method === 'PUT') {
+          const r = db.reviews.find((x) => x.id === id);
+          if (r) Object.assign(r, body);
+          saveDemoDb(db);
+        } else if (method === 'DELETE') {
+          db.reviews = db.reviews.filter((x) => x.id !== id);
+          saveDemoDb(db);
+        }
+        return { ok: true };
+      }
+
+      if (method === 'POST' && url === '/api/admin/faq') {
+        const created = { id: ++db.nextId, ...body };
+        db.faq.push(created);
+        saveDemoDb(db);
+        return { ok: true, id: created.id };
+      }
+      const fMatch = url.match(/^\/api\/admin\/faq\/(\d+)$/);
+      if (fMatch) {
+        const id = Number(fMatch[1]);
+        if (method === 'PUT') {
+          const f = db.faq.find((x) => x.id === id);
+          if (f) Object.assign(f, body);
+          saveDemoDb(db);
+        } else if (method === 'DELETE') {
+          db.faq = db.faq.filter((x) => x.id !== id);
+          saveDemoDb(db);
+        }
+        return { ok: true };
+      }
+
+      const uMatch = url.match(/^\/api\/admin\/users\/(\d+)$/);
+      if (uMatch) {
+        const id = Number(uMatch[1]);
+        if (id === user.id) throw new Error('Нельзя изменить собственный аккаунт');
+        if (method === 'PATCH') {
+          const u = db.users.find((x) => x.id === id);
+          if (u) u.role = body.role === 'admin' ? 'admin' : 'user';
+          saveDemoDb(db);
+        } else if (method === 'DELETE') {
+          db.users = db.users.filter((x) => x.id !== id);
+          saveDemoDb(db);
+        }
+        return { ok: true };
+      }
+    }
+
+    throw new Error('Маршрут недоступен в демо-режиме');
+  }
 
   function escapeHtml(str) {
     return String(str || '')
@@ -94,6 +432,10 @@
   }
 
   async function api(url, options = {}) {
+    if (staticMode || window.location.protocol === 'file:' || window.location.hostname.endsWith('github.io')) {
+      staticMode = true;
+      return staticDemoApi(url, options);
+    }
     const opts = {
       credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
@@ -102,14 +444,27 @@
     if (opts.body && typeof opts.body !== 'string') {
       opts.body = JSON.stringify(opts.body);
     }
-    const res = await fetch(url, opts);
-    const data = await res.json().catch(() => ({ ok: false, error: 'Ошибка чтения ответа сервера' }));
-    if (!res.ok || data.ok === false) {
-      const err = new Error(data.error || `Ошибка HTTP ${res.status}`);
-      err.status = res.status;
+    try {
+      const res = await fetch(url, opts);
+      const ct = res.headers.get('content-type') || '';
+      if (!ct.includes('application/json') && (res.status === 404 || res.status === 405)) {
+        staticMode = true;
+        return staticDemoApi(url, options);
+      }
+      const data = await res.json().catch(() => ({ ok: false, error: 'Ошибка чтения ответа сервера' }));
+      if (!res.ok || data.ok === false) {
+        const err = new Error(data.error || `Ошибка HTTP ${res.status}`);
+        err.status = res.status;
+        throw err;
+      }
+      return data;
+    } catch (err) {
+      if (err && err.name === 'TypeError') {
+        staticMode = true;
+        return staticDemoApi(url, options);
+      }
       throw err;
     }
-    return data;
   }
 
   // ==================== СКВОЗНАЯ СМЕТА МЕЖДУ СТРАНИЦАМИ ====================
@@ -198,38 +553,8 @@
       bootstrapCache = await api('/api/bootstrap');
       return bootstrapCache;
     } catch {
-      // Fallback если открыли статически через file:// без сервера
-      const d = window.APEX_DATA || {};
-      bootstrapCache = {
-        ok: true,
-        offlineMode: true,
-        settings: {
-          site_name: 'АПЕКС АВТО',
-          hero_kicker: 'Сертифицированный техцентр • Сохраняем гарантию дилера',
-          hero_title: 'Техцентр полного цикла с прозрачной сметой до начала работ',
-          hero_subtitle: 'Плановое ТО, компьютерная диагностика, ремонт тормозной системы, подвески, ДВС и АКПП.',
-          promo_badge: 'АКЦИЯ',
-          promo_text: 'Диагностика ходовой по 42 точкам — 0 ₽ при прохождении ТО',
-          phone: '+7 (495) 123-45-67',
-          email: 'service@apex-auto.example',
-          address: 'г. Москва, ул. Автозаводская, д. 23, стр. 4',
-          address_hint: 'Въезд через шлагбаум №2, вывеска «АПЕКС АВТО»',
-          open_hour: '8',
-          close_hour: '21',
-          warranty_months: '24',
-          posts_count: '6',
-          rating_score: '4.9',
-          reviews_count: '642',
-          telegram_configured: false
-        },
-        brands: d.brands || [],
-        categories: d.categories || [],
-        services: (d.services || []).map((s, idx) => ({ ...s, slug: s.id, id: idx + 1 })),
-        cases: (d.cases || []).map((c, idx) => ({ ...c, caseCode: c.id, id: idx + 1 })),
-        reviews: d.reviews || [],
-        faq: d.faq || [],
-        user: null
-      };
+      staticMode = true;
+      bootstrapCache = await staticDemoApi('/api/bootstrap');
       return bootstrapCache;
     }
   }
