@@ -1,0 +1,8 @@
+data
+.git
+.gitignore
+*.log
+PROMPTS.md
+TELEGRAM_SETUP.md
+api
+netlify

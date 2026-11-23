@@ -5,7 +5,7 @@ const path = require('node:path');
 const { DatabaseSync } = require('node:sqlite');
 const { hashPassword } = require('./auth');
 
-const DATA_DIR = path.join(__dirname, '..', 'data');
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..', 'data');
 const DB_PATH = path.join(DATA_DIR, 'apex.db');
 
 function initDatabase() {
@@ -269,4 +269,4 @@ function getAllSettings(db) {
   return obj;
 }
 
-module.exports = { initDatabase, getAllSettings };
+module.exports = { initDatabase, getAllSettings, DATA_DIR };

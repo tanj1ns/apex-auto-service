@@ -6,7 +6,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { URL } = require('node:url');
 
-const { initDatabase, getAllSettings } = require('./server/db');
+const { initDatabase, getAllSettings, DATA_DIR } = require('./server/db');
 const {
   hashPassword,
   verifyPassword,
@@ -17,8 +17,10 @@ const {
 } = require('./server/auth');
 
 const PORT = Number(process.env.PORT) || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
 const ROOT_DIR = __dirname;
-const UPLOADS_DIR = path.join(ROOT_DIR, 'images', 'uploads');
+const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
+const LEGACY_UPLOADS_DIR = path.join(ROOT_DIR, 'images', 'uploads');
 
 const db = initDatabase();
 
@@ -262,6 +264,11 @@ function serveStaticFile(res, relFilePath) {
 
 async function handleApi(req, res, pathname) {
   const method = req.method;
+
+  if (method === 'GET' && pathname === '/api/health') {
+    return sendJson(res, 200, { ok: true, service: 'apex-auto-service' });
+  }
+
   const user = getSessionUser(db, req);
 
   // ==================== ПУБЛИЧНЫЕ ДАННЫЕ ====================
@@ -754,6 +761,24 @@ const server = http.createServer(async (req, res) => {
       return await handleApi(req, res, pathname);
     }
 
+    if (pathname.startsWith('/images/uploads/')) {
+      const safeName = path.basename(pathname);
+      const runtimeFile = path.join(UPLOADS_DIR, safeName);
+      if (fs.existsSync(runtimeFile) && fs.statSync(runtimeFile).isFile()) {
+        const ext = path.extname(runtimeFile).toLowerCase();
+        res.writeHead(200, { 'Content-Type': MIME_TYPES[ext] || 'application/octet-stream' });
+        return fs.createReadStream(runtimeFile).pipe(res);
+      }
+      const legacyFile = path.join(LEGACY_UPLOADS_DIR, safeName);
+      if (fs.existsSync(legacyFile) && fs.statSync(legacyFile).isFile()) {
+        const ext = path.extname(legacyFile).toLowerCase();
+        res.writeHead(200, { 'Content-Type': MIME_TYPES[ext] || 'application/octet-stream' });
+        return fs.createReadStream(legacyFile).pipe(res);
+      }
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+      return res.end('Файл не найден');
+    }
+
     if (PAGE_ROUTES[pathname]) {
       return serveStaticFile(res, PAGE_ROUTES[pathname]);
     }
@@ -765,7 +790,7 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, '127.0.0.1', () => {
+server.listen(PORT, HOST, () => {
   console.log(`АПЕКС АВТО запущен на http://localhost:${PORT}`);
   console.log('Админ по умолчанию: admin@apex-auto.ru / admin12345');
   console.log('Клиент по умолчанию: client@apex-auto.ru / client12345');
