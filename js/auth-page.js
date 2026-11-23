@@ -7,7 +7,7 @@
 
   // Если уже авторизован — перенаправляем в нужный кабинет
   if (data.user) {
-    window.location.href = data.user.role === 'admin' ? '/admin' : '/account';
+    window.location.href = data.user.role === 'admin' ? 'admin.html' : 'account.html';
     return;
   }
 
@@ -62,7 +62,7 @@
       });
       status.textContent = 'Успешный вход! Перенаправляем...';
       status.className = 'form__status is-success';
-      window.location.href = res.user.role === 'admin' ? '/admin' : '/account';
+      window.location.href = res.user.role === 'admin' ? 'admin.html' : 'account.html';
     } catch (err) {
       status.textContent = err.message;
       status.className = 'form__status is-error';
@@ -93,7 +93,7 @@
       });
       status.textContent = 'Аккаунт создан! Открываем личный кабинет...';
       status.className = 'form__status is-success';
-      window.location.href = '/account';
+      window.location.href = 'account.html';
     } catch (err) {
       status.textContent = err.message;
       status.className = 'form__status is-error';

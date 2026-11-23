@@ -600,18 +600,18 @@
       : `Сейчас закрыто • откроемся в ${String(openH).padStart(2, '0')}:00`;
 
     const navItems = [
-      { id: 'home', href: '/', label: 'Главная' },
-      { id: 'services', href: '/services', label: 'Прайс-лист' },
-      { id: 'cases', href: '/cases', label: 'Кейсы' },
-      { id: 'calculator', href: '/calculator', label: 'Калькулятор', withBadge: true },
-      { id: 'booking', href: '/booking', label: 'Записаться' },
-      { id: 'contacts', href: '/contacts', label: 'Контакты' }
+      { id: 'home', href: 'index.html', label: 'Главная' },
+      { id: 'services', href: 'services.html', label: 'Прайс-лист' },
+      { id: 'cases', href: 'cases.html', label: 'Кейсы' },
+      { id: 'calculator', href: 'calculator.html', label: 'Калькулятор', withBadge: true },
+      { id: 'booking', href: 'booking.html', label: 'Записаться' },
+      { id: 'contacts', href: 'contacts.html', label: 'Контакты' }
     ];
 
     const authButtonsHtml = user
       ? `
-        ${user.role === 'admin' ? `<a href="/admin" class="btn btn--admin btn--sm ${page === 'admin' ? 'is-current' : ''}">Админ-панель</a>` : ''}
-        <a href="/account" class="user-pill ${page === 'account' ? 'is-current' : ''}" title="Личный кабинет">
+        ${user.role === 'admin' ? `<a href="admin.html" class="btn btn--admin btn--sm ${page === 'admin' ? 'is-current' : ''}">Админ-панель</a>` : ''}
+        <a href="account.html" class="user-pill ${page === 'account' ? 'is-current' : ''}" title="Личный кабинет">
           <span class="user-pill__avatar">${escapeHtml((user.name || 'U')[0].toUpperCase())}</span>
           <span class="user-pill__name">${escapeHtml(user.name.split(' ')[0])}</span>
         </a>
@@ -620,8 +620,8 @@
         </button>
       `
       : `
-        <a href="/auth" class="btn btn--outline btn--sm ${page === 'auth' ? 'is-current' : ''}">Войти</a>
-        <a href="/booking" class="btn btn--primary btn--sm header__cta">Записаться</a>
+        <a href="auth.html" class="btn btn--outline btn--sm ${page === 'auth' ? 'is-current' : ''}">Войти</a>
+        <a href="booking.html" class="btn btn--primary btn--sm header__cta">Записаться</a>
       `;
 
     const headerMount = document.getElementById('siteHeader');
@@ -635,17 +635,17 @@
                 <span>${escapeHtml(statusText)}</span>
               </span>
               <span class="topbar__sep" aria-hidden="true">•</span>
-              <a href="/contacts" class="topbar__address">${escapeHtml(s.address || '')}</a>
+              <a href="contacts.html" class="topbar__address">${escapeHtml(s.address || '')}</a>
             </div>
             <div class="topbar__right">
               <a href="${telHref}" class="topbar__phone">${escapeHtml(phone)}</a>
-              <a href="/booking" class="topbar__callback">Онлайн-запись</a>
+              <a href="booking.html" class="topbar__callback">Онлайн-запись</a>
             </div>
           </div>
         </div>
         <header class="header" id="header">
           <div class="container header__inner">
-            <a href="/" class="logo" aria-label="${escapeHtml(siteName)} — На главную">
+            <a href="index.html" class="logo" aria-label="${escapeHtml(siteName)} — На главную">
               <span class="logo__mark" aria-hidden="true">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
@@ -705,7 +705,7 @@
         } catch {
           // ignore
         }
-        window.location.href = '/';
+        window.location.href = 'index.html';
       });
     }
 
@@ -715,7 +715,7 @@
         <footer class="footer">
           <div class="container footer__grid">
             <div>
-              <a href="/" class="logo">
+              <a href="index.html" class="logo">
                 <span class="logo__mark" aria-hidden="true">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
@@ -729,12 +729,12 @@
             </div>
 
             <div class="footer__nav">
-              <a href="/services">Прайс-лист услуг</a>
-              <a href="/cases">Выполненные кейсы</a>
-              <a href="/calculator">Калькулятор сметы</a>
-              <a href="/booking">Онлайн-запись</a>
-              <a href="/contacts">Контакты и FAQ</a>
-              <a href="${user ? '/account' : '/auth'}">${user ? 'Личный кабинет' : 'Вход и регистрация'}</a>
+              <a href="services.html">Прайс-лист услуг</a>
+              <a href="cases.html">Выполненные кейсы</a>
+              <a href="calculator.html">Калькулятор сметы</a>
+              <a href="booking.html">Онлайн-запись</a>
+              <a href="contacts.html">Контакты и FAQ</a>
+              <a href="${user ? 'account.html' : 'auth.html'}">${user ? 'Личный кабинет' : 'Вход и регистрация'}</a>
             </div>
 
             <div class="footer__legal">
@@ -745,7 +745,7 @@
           </div>
         </footer>
 
-        <a href="/calculator" class="floating-estimate" id="floatingEstimate">
+        <a href="calculator.html" class="floating-estimate" id="floatingEstimate">
           <span class="floating-estimate__count mono" id="floatingCount">0</span>
           <span class="floating-estimate__text">
             <small>Ваша смета</small>
@@ -756,7 +756,7 @@
 
         <div class="mobile-dock" aria-label="Быстрые действия">
           <a href="${telHref}" class="mobile-dock__btn mobile-dock__btn--call">Позвонить</a>
-          <a href="/booking" class="mobile-dock__btn mobile-dock__btn--book">Записаться</a>
+          <a href="booking.html" class="mobile-dock__btn mobile-dock__btn--book">Записаться</a>
         </div>
       `;
     }

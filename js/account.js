@@ -6,7 +6,7 @@
   S.renderChrome(data);
 
   if (!data.user) {
-    window.location.href = '/auth';
+    window.location.href = 'auth.html';
     return;
   }
 
@@ -22,7 +22,7 @@
   if (user.role === 'admin') {
     const actions = document.getElementById('accountHeroActions');
     if (actions) {
-      actions.insertAdjacentHTML('afterbegin', '<a href="/admin" class="btn btn--admin">Открыть Админ-панель →</a>');
+      actions.insertAdjacentHTML('afterbegin', '<a href="admin.html" class="btn btn--admin">Открыть Админ-панель →</a>');
     }
   }
 
@@ -67,7 +67,7 @@
       listEl.innerHTML = `
         <div class="booking-item">
           <p class="section-desc">У вас пока нет записей на сервис.</p>
-          <div><a href="/booking" class="btn btn--primary btn--sm">Создать первую запись →</a></div>
+          <div><a href="booking.html" class="btn btn--primary btn--sm">Создать первую запись →</a></div>
         </div>
       `;
     } else {

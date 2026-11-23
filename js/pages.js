@@ -133,7 +133,7 @@
         car: (document.getElementById('quickCar')?.value || '').trim(),
         service: document.getElementById('quickWork')?.value || ''
       });
-      window.location.href = '/booking';
+      window.location.href = 'booking.html';
     });
 
     // Марки авто
@@ -146,7 +146,7 @@
         const btn = e.target.closest('.brand-pill');
         if (!btn) return;
         S.setPendingBooking({ car: `${btn.dataset.brand} ` });
-        window.location.href = '/booking';
+        window.location.href = 'booking.html';
       });
     }
 
@@ -376,7 +376,7 @@
         service: 'Запись по расчёту калькулятора',
         comment: S.buildEstimatePlainText(data.services, est)
       });
-      window.location.href = '/booking';
+      window.location.href = 'booking.html';
     });
 
     document.getElementById('copyCalcBtn')?.addEventListener('click', async () => {
