@@ -22,8 +22,15 @@
   let bootstrapCache = null;
   let toastTimer = null;
   let staticMode = false;
-  const DEMO_DB_KEY = 'apex_static_demo_db_v1';
-  const DEMO_SESSION_KEY = 'apex_static_demo_user_v1';
+  const DEMO_DB_KEY = 'apex_static_demo_db_v2';
+  const DEMO_SESSION_KEY = 'apex_static_demo_user_v2';
+  const APEX_ADMIN_SALT = 'apex-adm-v1:';
+  const APEX_ADMIN_HASH = '1bb6e8fe4353fae74bc93c29e4d4f57777f97c2b097f7c01a95759659bda08a3';
+
+  async function sha256Hex(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
 
   function getDefaultDemoDb() {
     const d = window.APEX_DATA || {};
@@ -57,7 +64,7 @@
       reviews: (d.reviews || []).map((r, idx) => ({ ...r, id: idx + 1 })),
       faq: (d.faq || []).map((f, idx) => ({ ...f, id: idx + 1 })),
       users: [
-        { id: 1, name: 'Администратор АПЕКС', email: 'admin@apex-auto.ru', phone: '+7 (495) 123-45-67', car: '', password: 'admin12345', role: 'admin', created_at: now },
+        { id: 1, name: 'Администратор АПЕКС', email: 'admin@apex-auto.ru', phone: '+7 (495) 123-45-67', car: '', passwordHash: APEX_ADMIN_HASH, role: 'admin', created_at: now },
         { id: 2, name: 'Алексей Морозов', email: 'client@apex-auto.ru', phone: '+7 (926) 555-12-34', car: 'Volkswagen Tiguan 2020', password: 'client12345', role: 'user', created_at: now }
       ],
       bookings: [
@@ -132,10 +139,19 @@
     if (method === 'POST' && url === '/api/auth/login') {
       const email = String(body.email || '').trim().toLowerCase();
       const password = String(body.password || '');
-      const found = db.users.find((u) => u.email.toLowerCase() === email && u.password === password);
-      if (!found) throw new Error('Неверный email или пароль');
-      localStorage.setItem(DEMO_SESSION_KEY, String(found.id));
-      return { ok: true, user: { id: found.id, name: found.name, email: found.email, phone: found.phone, car: found.car, role: found.role } };
+      const candidate = db.users.find((u) => u.email.toLowerCase() === email);
+      let ok = false;
+      if (candidate) {
+        if (candidate.passwordHash) {
+          const digest = await sha256Hex(APEX_ADMIN_SALT + password);
+          ok = digest === candidate.passwordHash;
+        } else if (candidate.password) {
+          ok = candidate.password === password;
+        }
+      }
+      if (!candidate || !ok) throw new Error('Неверный email или пароль');
+      localStorage.setItem(DEMO_SESSION_KEY, String(candidate.id));
+      return { ok: true, user: { id: candidate.id, name: candidate.name, email: candidate.email, phone: candidate.phone, car: candidate.car, role: candidate.role } };
     }
 
     if (method === 'POST' && url === '/api/auth/register') {
@@ -224,7 +240,7 @@
           reviews: db.reviews,
           faq: db.faq,
           settings: db.settings,
-          users: db.users.map(({ password: _p, ...rest }) => rest)
+          users: db.users.map(({ password: _p, passwordHash: _h, ...rest }) => rest)
         };
       }
 

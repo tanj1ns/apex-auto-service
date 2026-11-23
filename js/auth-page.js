@@ -31,14 +31,13 @@
 
   S.attachPhoneMask(document.getElementById('regPhone'));
 
-  // Быстрая подстановка демо-учёток
-  document.querySelectorAll('[data-quick-fill]').forEach((btn) => {
+  // Быстрая подстановка демо-учётки клиента
+  document.querySelectorAll('[data-quick-fill="user"]').forEach((btn) => {
     btn.addEventListener('click', () => {
       switchTab('login');
-      const isAdmin = btn.dataset.quickFill === 'admin';
-      document.getElementById('loginEmail').value = isAdmin ? 'admin@apex-auto.ru' : 'client@apex-auto.ru';
-      document.getElementById('loginPassword').value = isAdmin ? 'admin12345' : 'client12345';
-      S.showToast(isAdmin ? 'Подставлены данные администратора' : 'Подставлены данные клиента');
+      document.getElementById('loginEmail').value = 'client@apex-auto.ru';
+      document.getElementById('loginPassword').value = 'client12345';
+      S.showToast('Подставлены данные клиента');
     });
   });
 
