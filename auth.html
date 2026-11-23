@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вход и регистрация — АПЕКС АВТО</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f97316'/%3E%3Cpath d='M44.5 23.5l-6.2 6.2-4-4 6.2-6.2a10 10 0 00-13.2 13.2L16.5 43.5a3 3 0 004.2 4.2l10.8-10.8a10 10 0 0013-13.4z' fill='%23ffffff'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      var t = localStorage.getItem('apex_theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/app-pages.css" />
+</head>
+<body data-page="auth">
+  <div id="siteHeader"></div>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Хлебные крошки">
+          <a href="/">Главная</a><span>/</span><span>Авторизация</span>
+        </nav>
+        <h1 class="page-hero__title">Личный кабинет и доступ администратора</h1>
+        <p class="page-hero__subtitle">Зарегистрируйтесь как клиент для отслеживания статусов ремонта или войдите как администратор для управления сайтом.</p>
+      </div>
+    </section>
+
+    <section class="auth-section">
+      <div class="container">
+        <div class="auth-layout">
+          <div class="auth-card">
+            <div class="auth-tabs" role="tablist">
+              <button type="button" class="auth-tab is-active" id="tabLogin" data-auth-tab="login">Вход</button>
+              <button type="button" class="auth-tab" id="tabRegister" data-auth-tab="register">Регистрация</button>
+            </div>
+
+            <!-- Форма входа -->
+            <form class="form" id="loginForm">
+              <div class="form__group">
+                <label for="loginEmail" class="form__label">Email</label>
+                <input type="email" id="loginEmail" name="email" class="form__input" placeholder="you@example.com" required autocomplete="email" />
+              </div>
+              <div class="form__group">
+                <label for="loginPassword" class="form__label">Пароль</label>
+                <input type="password" id="loginPassword" name="password" class="form__input" placeholder="Введите пароль" required autocomplete="current-password" />
+              </div>
+              <button type="submit" class="btn btn--primary btn--full btn--lg" id="loginSubmit">Войти в аккаунт</button>
+              <p class="form__status" id="loginStatus" role="status"></p>
+            </form>
+
+            <!-- Форма регистрации (роль: обычный пользователь) -->
+            <form class="form" id="registerForm" style="display:none;">
+              <div class="form__group">
+                <label for="regName" class="form__label">Ваше имя *</label>
+                <input type="text" id="regName" name="name" class="form__input" placeholder="Алексей Смирнов" required />
+              </div>
+              <div class="form__group">
+                <label for="regEmail" class="form__label">Email *</label>
+                <input type="email" id="regEmail" name="email" class="form__input" placeholder="alex@example.com" required />
+              </div>
+              <div class="form__row">
+                <div class="form__group">
+                  <label for="regPhone" class="form__label">Телефон</label>
+                  <input type="tel" id="regPhone" name="phone" class="form__input mono" placeholder="+7 (999) 123-45-67" />
+                </div>
+                <div class="form__group">
+                  <label for="regCar" class="form__label">Ваш автомобиль</label>
+                  <input type="text" id="regCar" name="car" class="form__input" placeholder="Kia K5 2021" />
+                </div>
+              </div>
+              <div class="form__group">
+                <label for="regPassword" class="form__label">Пароль (от 6 символов) *</label>
+                <input type="password" id="regPassword" name="password" class="form__input" placeholder="Минимум 6 символов" required minlength="6" />
+              </div>
+              <button type="submit" class="btn btn--primary btn--full btn--lg" id="regSubmit">Создать аккаунт клиента</button>
+              <p class="form__status" id="regStatus" role="status"></p>
+            </form>
+          </div>
+
+          <!-- Готовые тестовые аккаунты для быстрой проверки ролей -->
+          <aside class="demo-creds">
+            <div>
+              <span class="eyebrow">Разделение ролей</span>
+              <h2 class="panel-card__title" style="margin-bottom: 6px;">Тестовые учётные записи</h2>
+              <p class="section-desc">
+                Новые пользователи при регистрации автоматически получают роль <strong>Клиент</strong>. Администратор может управлять всем сайтом и назначать права другим пользователям.
+              </p>
+            </div>
+
+            <div class="demo-creds__box">
+              <div class="demo-creds__head">
+                <strong>Администратор техцентра</strong>
+                <span class="role-badge role-badge--admin">ADMIN</span>
+              </div>
+              <div class="demo-creds__line mono">Email: admin@apex-auto.ru</div>
+              <div class="demo-creds__line mono">Пароль: admin12345</div>
+              <button type="button" class="btn btn--admin btn--sm" data-quick-fill="admin">Подставить данные админа</button>
+            </div>
+
+            <div class="demo-creds__box">
+              <div class="demo-creds__head">
+                <strong>Обычный клиент</strong>
+                <span class="role-badge role-badge--user">USER</span>
+              </div>
+              <div class="demo-creds__line mono">Email: client@apex-auto.ru</div>
+              <div class="demo-creds__line mono">Пароль: client12345</div>
+              <button type="button" class="btn btn--outline btn--sm" data-quick-fill="user">Подставить данные клиента</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/auth-page.js"></script>
+</body>
+</html>

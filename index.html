@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>АПЕКС АВТО — Техцентр, диагностика и ремонт автомобилей</title>
+  <meta name="description" content="Сертифицированный автосервис полного цикла: плановое ТО, компьютерная диагностика, ремонт тормозов, подвески, ДВС и АКПП. Онлайн-запись, калькулятор сметы и личный кабинет." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f97316'/%3E%3Cpath d='M44.5 23.5l-6.2 6.2-4-4 6.2-6.2a10 10 0 00-13.2 13.2L16.5 43.5a3 3 0 004.2 4.2l10.8-10.8a10 10 0 0013-13.4z' fill='%23ffffff'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      var t = localStorage.getItem('apex_theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/app-pages.css" />
+</head>
+<body data-page="home">
+  <div id="siteHeader"></div>
+
+  <main>
+    <!-- FULL-BLEED HERO -->
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true">
+        <img src="images/hero.jpg" alt="" class="hero__bg-img" />
+        <div class="hero__scrim"></div>
+        <div class="hero__grid-pattern"></div>
+      </div>
+
+      <div class="container hero__container">
+        <div class="hero__main">
+          <div class="hero__kicker">
+            <span class="kicker-dot"></span>
+            <span id="heroKicker">Сертифицированный техцентр • Сохраняем гарантию дилера</span>
+          </div>
+
+          <h1 class="hero__title" id="heroTitle">Техцентр полного цикла с прозрачной сметой до начала работ</h1>
+          <p class="hero__subtitle" id="heroSubtitle">
+            Плановое ТО, компьютерная диагностика, ремонт тормозной системы, подвески, ДВС и АКПП. Присылаем фото и видео каждого этапа в Telegram.
+          </p>
+
+          <form class="hero-quick" id="heroQuickForm" autocomplete="off">
+            <div class="hero-quick__field">
+              <label for="quickCar" class="sr-only">Марка и модель авто</label>
+              <input type="text" id="quickCar" class="hero-quick__input" placeholder="Марка и модель авто (например, VW Tiguan 2020)" />
+            </div>
+            <div class="hero-quick__field">
+              <label for="quickWork" class="sr-only">Направление</label>
+              <select id="quickWork" class="hero-quick__select">
+                <option value="Плановое ТО / Замена масла">Плановое ТО / Замена масла</option>
+                <option value="Компьютерная диагностика">Компьютерная диагностика</option>
+                <option value="Ремонт тормозной системы">Тормоза (диски / колодки)</option>
+                <option value="Ремонт подвески / Сход-развал">Ходовая и сход-развал 3D</option>
+                <option value="Ремонт двигателя / ГРМ / КПП">Двигатель / ГРМ / АКПП</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn--primary hero-quick__btn">Записаться →</button>
+          </form>
+
+          <div class="hero__offer-line">
+            <span class="offer-pill" id="promoBadge">АКЦИЯ</span>
+            <span id="promoText">Диагностика ходовой по 42 точкам — 0 ₽ при прохождении ТО</span>
+          </div>
+        </div>
+
+        <div class="trust-strip">
+          <div class="trust-item">
+            <strong class="trust-item__value mono" id="trustRating">4.9 / 5.0</strong>
+            <span class="trust-item__label" id="trustReviews">Яндекс Карты • 642 отзыва</span>
+          </div>
+          <div class="trust-item">
+            <strong class="trust-item__value mono" id="trustWarranty">24 мес.</strong>
+            <span class="trust-item__label">Гарантия в заказ-наряде</span>
+          </div>
+          <div class="trust-item">
+            <strong class="trust-item__value mono" id="trustPosts">6 постов</strong>
+            <span class="trust-item__label">Приём в день обращения</span>
+          </div>
+          <div class="trust-item">
+            <strong class="trust-item__value mono">100%</strong>
+            <span class="trust-item__label">Фотоотчёт в Telegram</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- МАРКИ -->
+    <section class="brands-bar" aria-label="Обслуживаемые марки">
+      <div class="container">
+        <div class="brands-bar__header">
+          <span class="brands-bar__label">Специализируемся на европейских, японских, корейских и китайских авто</span>
+          <span class="brands-bar__hint">Нажмите на марку для быстрой записи</span>
+        </div>
+        <div class="brands-list" id="brandsList"></div>
+      </div>
+    </section>
+
+    <!-- ПОПУЛЯРНЫЕ УСЛУГИ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head section-head--split reveal">
+          <div>
+            <span class="eyebrow">Популярные услуги</span>
+            <h2 class="section-title">Прозрачные цены в нормо-часах</h2>
+          </div>
+          <p class="section-desc">Добавляйте нужные работы в смету — она автоматически сохранится при переходе в Калькулятор.</p>
+        </div>
+
+        <div class="price-table reveal" id="homePricePreview"></div>
+
+        <div class="section-cta-bar reveal">
+          <a href="/services" class="btn btn--outline">Открыть весь прайс-лист →</a>
+          <a href="/calculator" class="btn btn--primary">Перейти в калькулятор сметы</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- КАК ПРОХОДИТ РЕМОНТ -->
+    <section class="section section--elevated">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Регламент техцентра</span>
+          <h2 class="section-title">Никаких сюрпризов в итоговом счёте</h2>
+        </div>
+
+        <ol class="process-grid">
+          <li class="process-card reveal">
+            <span class="process-card__num mono">01</span>
+            <h3 class="process-card__title">Онлайн-запись и подбор по VIN</h3>
+            <p class="process-card__text">За 10 минут перезваниваем, уточняем симптомы и резервируем оригинальные или OEM-запчасти на складе.</p>
+          </li>
+          <li class="process-card reveal">
+            <span class="process-card__num mono">02</span>
+            <h3 class="process-card__title">Дефектовка и фото в Telegram</h3>
+            <p class="process-card__text">Осматриваем автомобиль на подъёмнике и отправляем фото/видео изношенных узлов прямо в мессенджер.</p>
+          </li>
+          <li class="process-card reveal">
+            <span class="process-card__num mono">03</span>
+            <h3 class="process-card__title">Фиксация сметы до ремонта</h3>
+            <p class="process-card__text">Согласовываем точный список работ и цену до последнего рубля. Статус ремонта виден в Личном кабинете.</p>
+          </li>
+          <li class="process-card reveal">
+            <span class="process-card__num mono">04</span>
+            <h3 class="process-card__title">Выдача с гарантией 2 года</h3>
+            <p class="process-card__text">Оформляем официальный заказ-наряд, старые запчасти складываем в багажник, оплата — после приёмки.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ИЗБРАННЫЕ КЕЙСЫ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head section-head--split reveal">
+          <div>
+            <span class="eyebrow">Реальные работы</span>
+            <h2 class="section-title">Свежие кейсы из ремзоны</h2>
+          </div>
+          <a href="/cases" class="btn btn--outline">Все кейсы и фото →</a>
+        </div>
+        <div class="cases-grid" id="homeCasesPreview"></div>
+      </div>
+    </section>
+
+    <!-- ОТЗЫВЫ -->
+    <section class="section section--elevated">
+      <div class="container">
+        <div class="section-head section-head--split reveal">
+          <div>
+            <span class="eyebrow">Отзывы клиентов</span>
+            <h2 class="section-title">Реальные оценки на картах</h2>
+          </div>
+          <div class="rating-badges">
+            <div class="rating-pill"><strong class="mono">4.9 ★</strong><span>Яндекс Карты</span></div>
+            <div class="rating-pill"><strong class="mono">4.9 ★</strong><span>2ГИС</span></div>
+          </div>
+        </div>
+        <div class="reviews-grid" id="homeReviewsGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

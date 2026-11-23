@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Контакты и частые вопросы — АПЕКС АВТО</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f97316'/%3E%3Cpath d='M44.5 23.5l-6.2 6.2-4-4 6.2-6.2a10 10 0 00-13.2 13.2L16.5 43.5a3 3 0 004.2 4.2l10.8-10.8a10 10 0 0013-13.4z' fill='%23ffffff'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      var t = localStorage.getItem('apex_theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/app-pages.css" />
+</head>
+<body data-page="contacts">
+  <div id="siteHeader"></div>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Хлебные крошки">
+          <a href="/">Главная</a><span>/</span><span>Контакты и FAQ</span>
+        </nav>
+        <div class="page-hero__row">
+          <div>
+            <h1 class="page-hero__title">Контакты, схема проезда и FAQ</h1>
+            <p class="page-hero__subtitle">Работаем ежедневно без выходных. Бесплатная охраняемая парковка и комфортная клиентская зона.</p>
+          </div>
+          <a href="/booking" class="btn btn--primary">Записаться на визит →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="contacts-grid">
+          <div class="contacts-card">
+            <div class="contact-block">
+              <span class="contact-block__label">Адрес техцентра</span>
+              <strong class="contact-block__value" id="contactAddress">г. Москва, ул. Автозаводская, д. 23, стр. 4</strong>
+              <span class="contact-block__meta" id="contactAddressHint">Въезд через шлагбаум №2, вывеска «АПЕКС АВТО»</span>
+            </div>
+
+            <div class="contact-block">
+              <span class="contact-block__label">График работы</span>
+              <strong class="contact-block__value" id="contactHours">Ежедневно с 08:00 до 21:00</strong>
+              <span class="contact-block__meta">Без выходных • Ночная сдача ключей по согласованию</span>
+            </div>
+
+            <div class="contact-block">
+              <span class="contact-block__label">Телефон и почта</span>
+              <strong class="contact-block__value mono"><a href="tel:+74951234567" id="contactPhone">+7 (495) 123-45-67</a></strong>
+              <span class="contact-block__meta"><a href="mailto:service@apex-auto.example" id="contactEmail">service@apex-auto.example</a></span>
+            </div>
+
+            <div class="contacts-card__btns">
+              <a href="https://yandex.ru/maps/?rtext=~55.7069,37.6572&rtt=auto" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--full">
+                Построить маршрут в Яндекс Картах ↗
+              </a>
+            </div>
+          </div>
+
+          <div class="map-card">
+            <iframe
+              title="Карта проезда в техцентр АПЕКС АВТО"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=37.6422%2C55.6995%2C37.6722%2C55.7145&layer=mapnik&marker=55.7069%2C37.6572"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--elevated">
+      <div class="container faq-container">
+        <div class="section-head">
+          <span class="eyebrow">Ответы на вопросы</span>
+          <h2 class="section-title">Часто спрашивают перед визитом</h2>
+        </div>
+        <div class="faq-list" id="faqList"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

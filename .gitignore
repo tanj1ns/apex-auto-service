@@ -1,0 +1,9 @@
+# Локальная база данных и секреты
+data/*.db
+data/*.db-wal
+data/*.db-shm
+.env
+node_modules/
+images/uploads/
+.DS_Store
+Thumbs.db
