@@ -19,13 +19,15 @@
 }
 
 .btn--admin {
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
-  color: #ffffff;
-  border-color: transparent;
+  background-color: var(--surface-hover);
+  color: var(--text);
+  border-color: var(--border-strong);
 }
 
-.btn--admin:hover {
-  filter: brightness(1.08);
+.btn--admin:hover,
+.btn--admin.is-current {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .user-pill {

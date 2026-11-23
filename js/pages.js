@@ -61,7 +61,7 @@
                 </div>
               </div>
               <div class="case-card__body">
-                <span class="case-card__car">${S.escapeHtml(c.car)}</span>
+                <span class="case-card__car">${S.escapeHtml(c.tag)} · ${S.escapeHtml(c.car)}</span>
                 <h3 class="case-card__title">${S.escapeHtml(c.title)}</h3>
                 <p class="case-card__desc">${S.escapeHtml(c.desc)}</p>
                 <div class="case-card__footer">
