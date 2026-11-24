@@ -22,7 +22,7 @@
   let bootstrapCache = null;
   let toastTimer = null;
   let staticMode = false;
-  const DEMO_DB_KEY = 'apex_static_demo_db_v2';
+  const DEMO_DB_KEY = 'apex_static_demo_db_v3';
   const DEMO_SESSION_KEY = 'apex_static_demo_user_v2';
   const APEX_LOGIN_GUARD_KEY = 'apex_login_guard_v1';
   const APEX_LAST_BOOKING_KEY = 'apex_last_booking_ts';
@@ -814,6 +814,7 @@
 
         <div class="mobile-dock" aria-label="Быстрые действия">
           <a href="${telHref}" class="mobile-dock__btn mobile-dock__btn--call">Позвонить</a>
+          <a href="https://t.me/" target="_blank" rel="noopener noreferrer" class="mobile-dock__btn mobile-dock__btn--tg">Telegram</a>
           <a href="booking.html" class="mobile-dock__btn mobile-dock__btn--book">Записаться</a>
         </div>
       `;
@@ -910,6 +911,45 @@
     );
     items.forEach((el) => observer.observe(el));
   }
+
+  function openPrivacyModal() {
+    let pm = document.getElementById('privacyModal');
+    if (!pm) {
+      pm = document.createElement('div');
+      pm.id = 'privacyModal';
+      pm.className = 'privacy-modal';
+      pm.setAttribute('role', 'dialog');
+      pm.setAttribute('aria-modal', 'true');
+      pm.setAttribute('aria-labelledby', 'privacyModalTitle');
+      pm.innerHTML = `
+        <div class="privacy-modal__box">
+          <div class="privacy-modal__head">
+            <h3 id="privacyModalTitle">Политика обработки персональных данных (152-ФЗ)</h3>
+            <button type="button" class="icon-btn" id="privacyModalClose" aria-label="Закрыть">✕</button>
+          </div>
+          <div class="privacy-modal__body">
+            <p>Настоящим в соответствии с Федеральным законом № 152-ФЗ «О персональных данных» вы даёте согласие техцентру «АПЕКС АВТО» на обработку указанных в форме данных (имя, номер телефона, марка и модель автомобиля) исключительно для обратной связи, расчёта стоимости и записи на обслуживание.</p>
+            <p>Данные не передаются третьим лицам, за исключением случаев, предусмотренных законодательством РФ. Согласие может быть отозвано в любой момент по письменному или электронному обращению на почту сервиса.</p>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(pm);
+      const closePm = () => pm.classList.remove('is-open');
+      pm.querySelector('#privacyModalClose').addEventListener('click', closePm);
+      pm.addEventListener('click', (e) => { if (e.target === pm) closePm(); });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && pm.classList.contains('is-open')) closePm();
+      });
+    }
+    pm.classList.add('is-open');
+  }
+
+  document.addEventListener('click', (e) => {
+    if (e.target && e.target.closest && e.target.closest('[data-open-privacy]')) {
+      e.preventDefault();
+      openPrivacyModal();
+    }
+  });
 
   const PROTECTED_MEDIA_SELECTOR = 'img, .case-card__media, .hero__bg, .lightbox__figure';
   document.addEventListener('contextmenu', (e) => {

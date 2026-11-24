@@ -75,6 +75,12 @@
     const btn = document.getElementById('regSubmit');
     const fd = new FormData(registerForm);
 
+    if (!fd.get('consent')) {
+      status.textContent = 'Подтвердите согласие на обработку персональных данных (152-ФЗ).';
+      status.className = 'form__status is-error';
+      return;
+    }
+
     btn.disabled = true;
     status.textContent = 'Создаём аккаунт...';
     status.className = 'form__status';

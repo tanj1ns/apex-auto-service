@@ -3,9 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; frame-src https://www.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; frame-src https://yandex.ru https://*.yandex.ru https://www.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Контакты и частые вопросы — АПЕКС АВТО</title>
+  <meta name="description" content="Адрес, режим работы, схема проезда на Яндекс Картах, мессенджеры и частые вопросы техцентра АПЕКС АВТО." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Контакты и частые вопросы — АПЕКС АВТО" />
+  <meta property="og:description" content="г. Москва, ул. Автозаводская, д. 23, стр. 4 — работаем ежедневно с 08:00 до 21:00." />
+  <meta property="og:url" content="https://tanj1ns.github.io/apex-auto-service/contacts.html" />
+  <meta property="og:image" content="https://tanj1ns.github.io/apex-auto-service/images/hero.webp" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoRepair",
+    "name": "АПЕКС АВТО",
+    "url": "https://tanj1ns.github.io/apex-auto-service/contacts.html",
+    "telephone": "+7-495-123-45-67",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Автозаводская, д. 23, стр. 4",
+      "addressLocality": "Москва",
+      "addressCountry": "RU"
+    }
+  }
+  </script>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f97316'/%3E%3Cpath d='M44.5 23.5l-6.2 6.2-4-4 6.2-6.2a10 10 0 00-13.2 13.2L16.5 43.5a3 3 0 004.2 4.2l10.8-10.8a10 10 0 0013-13.4z' fill='%23ffffff'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -60,13 +81,17 @@
               <a href="https://yandex.ru/maps/?rtext=~55.7069,37.6572&rtt=auto" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--full">
                 Построить маршрут в Яндекс Картах ↗
               </a>
+              <div class="contacts-card__messengers">
+                <a href="https://t.me/" target="_blank" rel="noopener noreferrer" class="btn btn--outline">Написать в Telegram</a>
+                <a href="https://wa.me/74951234567" target="_blank" rel="noopener noreferrer" class="btn btn--outline">Написать в WhatsApp</a>
+              </div>
             </div>
           </div>
 
           <div class="map-card">
             <iframe
               title="Карта проезда в техцентр АПЕКС АВТО"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=37.6422%2C55.6995%2C37.6722%2C55.7145&layer=mapnik&marker=55.7069%2C37.6572"
+              src="https://yandex.ru/map-widget/v1/?ll=37.657200%2C55.706900&z=16&pt=37.657200,55.706900,pm2orgm"
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
             ></iframe>

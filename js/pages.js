@@ -421,14 +421,14 @@
       directPhone.href = 'tel:' + settings.phone.replace(/[^+\d]/g, '');
     }
 
-    // Статус Telegram с сервера
+    // Статус передачи заявок
     if (tgBadge && tgText) {
       if (settings.telegram_configured) {
         tgBadge.classList.add('is-connected');
-        tgText.textContent = 'Telegram-бот подключён на сервере';
+        tgText.textContent = 'Мгновенная отправка мастеру в Telegram • Перезвоним за 10 минут';
       } else {
         tgBadge.classList.remove('is-connected');
-        tgText.textContent = 'Заявки сохраняются в базу CRM (Telegram можно подключить в Админ-панели)';
+        tgText.textContent = 'Прямая передача мастеру-приёмщику • Перезвоним в течение 10 минут';
       }
     }
 
@@ -488,6 +488,12 @@
       }
 
       const fd = new FormData(form);
+      if (!fd.get('consent')) {
+        formStatus.textContent = 'Подтвердите согласие на обработку персональных данных (152-ФЗ).';
+        formStatus.className = 'form__status is-error';
+        return;
+      }
+
       const elapsedMs = Date.now() - formOpenedAt;
       if (elapsedMs < 1200) {
         formStatus.textContent = 'Пожалуйста, заполните форму вручную.';

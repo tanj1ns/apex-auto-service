@@ -442,8 +442,8 @@ async function handleApi(req, res, pathname) {
   if (method === 'GET' && pathname === '/api/account/bookings') {
     if (!requireAuth(res, user)) return;
     const rows = db
-      .prepare('SELECT * FROM bookings WHERE user_id = ? ORDER BY id DESC')
-      .all(user.id);
+      .prepare("SELECT * FROM bookings WHERE user_id = ? OR (phone != '' AND phone = ?) ORDER BY id DESC")
+      .all(user.id, user.phone || '');
     return sendJson(res, 200, { ok: true, bookings: rows });
   }
 
