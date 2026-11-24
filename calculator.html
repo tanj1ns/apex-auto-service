@@ -1,25 +1,25 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; frame-src https://yandex.ru https://*.yandex.ru https://www.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>РљР°Р»СЊРєСѓР»СЏС‚РѕСЂ СЃРјРµС‚С‹ вЂ” РђРџР•РљРЎ РђР’РўРћ</title>
-  <meta name="description" content="РћРЅР»Р°Р№РЅ-РєР°Р»СЊРєСѓР»СЏС‚РѕСЂ СЃС‚РѕРёРјРѕСЃС‚Рё СЂРµРјРѕРЅС‚Р° Рё РўРћ РІ С‚РµС…С†РµРЅС‚СЂРµ РђРџР•РљРЎ РђР’РўРћ СЃ СѓС‡С‘С‚РѕРј РєР»Р°СЃСЃР° Р°РІС‚РѕРјРѕР±РёР»СЏ Рё РІСЂРµРјРµРЅРё СЂР°Р±РѕС‚." />
+  <title>Калькулятор сметы — АПЕКС АВТО</title>
+  <meta name="description" content="Онлайн-калькулятор стоимости ремонта и ТО в техцентре АПЕКС АВТО с учётом класса автомобиля и времени работ." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="РљР°Р»СЊРєСѓР»СЏС‚РѕСЂ СЃРјРµС‚С‹ вЂ” РђРџР•РљРЎ РђР’РўРћ" />
-  <meta property="og:description" content="Р Р°СЃСЃС‡РёС‚Р°Р№С‚Рµ РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅСѓСЋ СЃС‚РѕРёРјРѕСЃС‚СЊ РўРћ Рё СЂРµРјРѕРЅС‚Р° РґРѕ РІРёР·РёС‚Р° РІ СЃРµСЂРІРёСЃ." />
+  <meta property="og:title" content="Калькулятор сметы — АПЕКС АВТО" />
+  <meta property="og:description" content="Рассчитайте предварительную стоимость ТО и ремонта до визита в сервис." />
   <meta property="og:url" content="https://tanj1ns.github.io/apex-auto-service/calculator.html" />
   <meta property="og:image" content="https://tanj1ns.github.io/apex-auto-service/images/hero.webp" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f97316'/%3E%3Cpath d='M44.5 23.5l-6.2 6.2-4-4 6.2-6.2a10 10 0 00-13.2 13.2L16.5 43.5a3 3 0 004.2 4.2l10.8-10.8a10 10 0 0013-13.4z' fill='%23ffffff'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Oswald:wght@600;700&display=swap" rel="stylesheet" />
-  <script src="js/theme-init.js?v=3"></script>
-  <link rel="stylesheet" href="css/tokens.css?v=3" />
-  <link rel="stylesheet" href="css/styles.css?v=3" />
-  <link rel="stylesheet" href="css/app-pages.css?v=3" />
+  <script src="js/theme-init.js?v=4"></script>
+  <link rel="stylesheet" href="css/tokens.css?v=4" />
+  <link rel="stylesheet" href="css/styles.css?v=4" />
+  <link rel="stylesheet" href="css/app-pages.css?v=4" />
 </head>
 <body data-page="calculator">
   <div id="siteHeader"></div>
@@ -27,15 +27,15 @@
   <main>
     <section class="page-hero">
       <div class="container">
-        <nav class="breadcrumbs" aria-label="РҐР»РµР±РЅС‹Рµ РєСЂРѕС€РєРё">
-          <a href="index.html">Р“Р»Р°РІРЅР°СЏ</a><span>/</span><span>РљР°Р»СЊРєСѓР»СЏС‚РѕСЂ СЃРјРµС‚С‹</span>
+        <nav class="breadcrumbs" aria-label="Хлебные крошки">
+          <a href="index.html">Главная</a><span>/</span><span>Калькулятор сметы</span>
         </nav>
         <div class="page-hero__row">
           <div>
-            <h1 class="page-hero__title">РРЅС‚РµСЂР°РєС‚РёРІРЅС‹Р№ РєР°Р»СЊРєСѓР»СЏС‚РѕСЂ СЂРµРјРѕРЅС‚Р°</h1>
-            <p class="page-hero__subtitle">Р’С‹Р±РµСЂРёС‚Рµ РєР»Р°СЃСЃ Р°РІС‚РѕРјРѕР±РёР»СЏ Рё РѕС‚РјРµС‚СЊС‚Рµ РЅСѓР¶РЅС‹Рµ СЂР°Р±РѕС‚С‹ вЂ” РіРѕС‚РѕРІС‹Р№ СЂР°СЃС‡С‘С‚ РјРѕР¶РЅРѕ СЃСЂР°Р·Сѓ РїРµСЂРµРЅРµСЃС‚Рё РІ Р·Р°СЏРІРєСѓ РёР»Рё СЂР°СЃРїРµС‡Р°С‚Р°С‚СЊ.</p>
+            <h1 class="page-hero__title">Интерактивный калькулятор ремонта</h1>
+            <p class="page-hero__subtitle">Выберите класс автомобиля и отметьте нужные работы — готовый расчёт можно сразу перенести в заявку или распечатать.</p>
           </div>
-          <a href="services.html" class="btn btn--outline">в†ђ Рљ РїСЂР°Р№СЃ-Р»РёСЃС‚Сѓ</a>
+          <a href="services.html" class="btn btn--outline">← К прайс-листу</a>
         </div>
       </div>
     </section>
@@ -46,32 +46,32 @@
           <div class="calc-panel">
             <div class="calc-block">
               <div class="calc-block__head">
-                <span class="calc-step-tag mono">РЁРђР“ 1</span>
-                <h2 class="calc-block__title">РљР»Р°СЃСЃ Р°РІС‚РѕРјРѕР±РёР»СЏ</h2>
+                <span class="calc-step-tag mono">ШАГ 1</span>
+                <h2 class="calc-block__title">Класс автомобиля</h2>
               </div>
-              <div class="vehicle-grid" role="radiogroup" aria-label="РљР»Р°СЃСЃ Р°РІС‚РѕРјРѕР±РёР»СЏ">
+              <div class="vehicle-grid" role="radiogroup" aria-label="Класс автомобиля">
                 <label class="vehicle-card is-selected">
-                  <input type="radio" name="vehicleClass" value="1" data-label="РЎРµРґР°РЅ / РҐСЌС‚С‡Р±РµРє" checked />
-                  <strong>РЎРµРґР°РЅ / РҐСЌС‚С‡Р±РµРє</strong>
-                  <span class="mono">Г— 1.00</span>
+                  <input type="radio" name="vehicleClass" value="1" data-label="Седан / Хэтчбек" checked />
+                  <strong>Седан / Хэтчбек</strong>
+                  <span class="mono">× 1.00</span>
                 </label>
                 <label class="vehicle-card">
-                  <input type="radio" name="vehicleClass" value="1.15" data-label="РљСЂРѕСЃСЃРѕРІРµСЂ" />
-                  <strong>РљСЂРѕСЃСЃРѕРІРµСЂ</strong>
-                  <span class="mono">Г— 1.15</span>
+                  <input type="radio" name="vehicleClass" value="1.15" data-label="Кроссовер" />
+                  <strong>Кроссовер</strong>
+                  <span class="mono">× 1.15</span>
                 </label>
                 <label class="vehicle-card">
-                  <input type="radio" name="vehicleClass" value="1.3" data-label="Р’РЅРµРґРѕСЂРѕР¶РЅРёРє / РџСЂРµРјРёСѓРј" />
-                  <strong>Р’РЅРµРґРѕСЂРѕР¶РЅРёРє / РџСЂРµРјРёСѓРј</strong>
-                  <span class="mono">Г— 1.30</span>
+                  <input type="radio" name="vehicleClass" value="1.3" data-label="Внедорожник / Премиум" />
+                  <strong>Внедорожник / Премиум</strong>
+                  <span class="mono">× 1.30</span>
                 </label>
               </div>
             </div>
 
             <div class="calc-block">
               <div class="calc-block__head">
-                <span class="calc-step-tag mono">РЁРђР“ 2</span>
-                <h2 class="calc-block__title">Р’С‹Р±РµСЂРёС‚Рµ СЂР°Р±РѕС‚С‹</h2>
+                <span class="calc-step-tag mono">ШАГ 2</span>
+                <h2 class="calc-block__title">Выберите работы</h2>
               </div>
               <div class="calc-list" id="calcList"></div>
             </div>
@@ -80,34 +80,34 @@
           <aside class="estimate-card" aria-live="polite">
             <div class="estimate-card__head">
               <div>
-                <span class="estimate-card__eyebrow">РџР Р•Р”Р’РђР РРўР•Р›Р¬РќРђРЇ РЎРњР•РўРђ</span>
-                <strong class="estimate-card__class" id="calcClassLabel">РЎРµРґР°РЅ / РҐСЌС‚С‡Р±РµРє</strong>
+                <span class="estimate-card__eyebrow">ПРЕДВАРИТЕЛЬНАЯ СМЕТА</span>
+                <strong class="estimate-card__class" id="calcClassLabel">Седан / Хэтчбек</strong>
               </div>
-              <span class="estimate-card__warranty">Р“Р°СЂР°РЅС‚РёСЏ 2 РіРѕРґР°</span>
+              <span class="estimate-card__warranty">Гарантия 2 года</span>
             </div>
 
             <ul class="estimate-card__items" id="calcSummaryList"></ul>
 
             <div class="estimate-card__meta">
-              <span>Р Р°СЃС‡С‘С‚РЅРѕРµ РІСЂРµРјСЏ РІ Р±РѕРєСЃРµ</span>
-              <strong class="mono" id="calcHours">вЂ”</strong>
+              <span>Расчётное время в боксе</span>
+              <strong class="mono" id="calcHours">—</strong>
             </div>
 
             <div class="estimate-card__total">
-              <span>РС‚РѕРіРѕ Р·Р° СЂР°Р±РѕС‚С‹</span>
-              <strong class="mono" id="calcTotal">0 в‚Ѕ</strong>
+              <span>Итого за работы</span>
+              <strong class="mono" id="calcTotal">0 ₽</strong>
             </div>
 
             <p class="estimate-card__note">
-              РўРѕС‡РЅСѓСЋ СЃС‚РѕРёРјРѕСЃС‚СЊ Р·Р°РїС‡Р°СЃС‚РµР№ РїРѕ РІР°С€РµРјСѓ VIN РјР°СЃС‚РµСЂ РЅР°Р·РѕРІС‘С‚ РІ С‚РµС‡РµРЅРёРµ 10 РјРёРЅСѓС‚ РїРѕСЃР»Рµ РїРѕР»СѓС‡РµРЅРёСЏ Р·Р°СЏРІРєРё.
+              Точную стоимость запчастей по вашему VIN мастер назовёт в течение 10 минут после получения заявки.
             </p>
 
             <div class="estimate-card__actions">
-              <button type="button" class="btn btn--primary btn--full" id="applyCalcBtn">РџРµСЂРµРЅРµСЃС‚Рё РІ Р·Р°СЏРІРєСѓ в†’</button>
+              <button type="button" class="btn btn--primary btn--full" id="applyCalcBtn">Перенести в заявку →</button>
               <div class="estimate-card__secondary">
-                <button type="button" class="btn btn--outline btn--sm" id="copyCalcBtn">РЎРєРѕРїРёСЂРѕРІР°С‚СЊ</button>
-                <button type="button" class="btn btn--outline btn--sm" id="printCalcBtn">РџРµС‡Р°С‚СЊ</button>
-                <button type="button" class="btn btn--ghost btn--sm" id="resetCalcBtn">РЎР±СЂРѕСЃРёС‚СЊ</button>
+                <button type="button" class="btn btn--outline btn--sm" id="copyCalcBtn">Скопировать</button>
+                <button type="button" class="btn btn--outline btn--sm" id="printCalcBtn">Печать</button>
+                <button type="button" class="btn btn--ghost btn--sm" id="resetCalcBtn">Сбросить</button>
               </div>
             </div>
           </aside>
@@ -118,8 +118,8 @@
 
   <div id="siteFooter"></div>
 
-  <script src="js/data.js"></script>
-  <script src="js/shared.js?v=3"></script>
-  <script src="js/pages.js"></script>
+  <script src="js/data.js?v=4"></script>
+  <script src="js/shared.js?v=4"></script>
+  <script src="js/pages.js?v=4"></script>
 </body>
 </html>

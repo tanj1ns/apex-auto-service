@@ -1,20 +1,20 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; frame-src https://yandex.ru https://*.yandex.ru https://www.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>РђРґРјРёРЅ-РїР°РЅРµР»СЊ СѓРїСЂР°РІР»РµРЅРёСЏ вЂ” РђРџР•РљРЎ РђР’РўРћ</title>
-  <meta name="description" content="РџР°РЅРµР»СЊ СѓРїСЂР°РІР»РµРЅРёСЏ С‚РµС…С†РµРЅС‚СЂРѕРј РђРџР•РљРЎ РђР’РўРћ." />
+  <title>Админ-панель управления — АПЕКС АВТО</title>
+  <meta name="description" content="Панель управления техцентром АПЕКС АВТО." />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f97316'/%3E%3Cpath d='M44.5 23.5l-6.2 6.2-4-4 6.2-6.2a10 10 0 00-13.2 13.2L16.5 43.5a3 3 0 004.2 4.2l10.8-10.8a10 10 0 0013-13.4z' fill='%23ffffff'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Oswald:wght@600;700&display=swap" rel="stylesheet" />
-  <script src="js/theme-init.js?v=3"></script>
-  <link rel="stylesheet" href="css/tokens.css?v=3" />
-  <link rel="stylesheet" href="css/styles.css?v=3" />
-  <link rel="stylesheet" href="css/app-pages.css?v=3" />
+  <script src="js/theme-init.js?v=4"></script>
+  <link rel="stylesheet" href="css/tokens.css?v=4" />
+  <link rel="stylesheet" href="css/styles.css?v=4" />
+  <link rel="stylesheet" href="css/app-pages.css?v=4" />
 </head>
 <body data-page="admin">
   <div id="siteHeader"></div>
@@ -22,113 +22,113 @@
   <main>
     <section class="page-hero">
       <div class="container">
-        <nav class="breadcrumbs" aria-label="РҐР»РµР±РЅС‹Рµ РєСЂРѕС€РєРё">
-          <a href="index.html">Р“Р»Р°РІРЅР°СЏ</a><span>/</span><span>РђРґРјРёРЅ-РїР°РЅРµР»СЊ</span>
+        <nav class="breadcrumbs" aria-label="Хлебные крошки">
+          <a href="index.html">Главная</a><span>/</span><span>Админ-панель</span>
         </nav>
         <div class="page-hero__row">
           <div>
-            <h1 class="page-hero__title">РџР°РЅРµР»СЊ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР° (CMS + CRM)</h1>
-            <p class="page-hero__subtitle">РџРѕР»РЅРѕРµ СѓРїСЂР°РІР»РµРЅРёРµ РєРѕРЅС‚РµРЅС‚РѕРј СЃР°Р№С‚Р°, РїСЂР°Р№СЃ-Р»РёСЃС‚РѕРј, РєРµР№СЃР°РјРё, Р·Р°СЏРІРєР°РјРё РєР»РёРµРЅС‚РѕРІ, СЂРѕР»СЏРјРё Рё Telegram-Р±РѕС‚РѕРј.</p>
+            <h1 class="page-hero__title">Панель администратора (CMS + CRM)</h1>
+            <p class="page-hero__subtitle">Полное управление контентом сайта, прайс-листом, кейсами, заявками клиентов, ролями и Telegram-ботом.</p>
           </div>
-          <a href="index.html" class="btn btn--outline">РћС‚РєСЂС‹С‚СЊ СЃР°Р№С‚ в†—</a>
+          <a href="index.html" class="btn btn--outline">Открыть сайт ↗</a>
         </div>
       </div>
     </section>
 
     <section class="admin-section">
       <div class="container" id="adminRoot">
-        <!-- Р•СЃР»Рё РЅРµС‚ РїСЂР°РІ Р°РґРјРёРЅР° вЂ” РїРѕРєР°Р¶РµС‚СЃСЏ СЃРѕРѕР±С‰РµРЅРёРµ РґРѕСЃС‚СѓРїР°; РёРЅР°С‡Рµ Р·Р°РіСЂСѓР¶Р°РµС‚СЃСЏ РїР°РЅРµР»СЊ -->
+        <!-- Если нет прав админа — покажется сообщение доступа; иначе загружается панель -->
         <div id="adminAccessDenied" class="panel-card" style="display:none; max-width:560px; margin: 20px auto; text-align:center;">
-          <h2 class="panel-card__title" style="margin-bottom:10px;">Р”РѕСЃС‚СѓРї С‚РѕР»СЊРєРѕ РґР»СЏ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°</h2>
-          <p class="section-desc" style="margin: 0 auto 20px;">Р’РѕР№РґРёС‚Рµ РїРѕРґ СѓС‡С‘С‚РЅРѕР№ Р·Р°РїРёСЃСЊСЋ СЃ СЂРѕР»СЊСЋ <strong>ADMIN</strong>, С‡С‚РѕР±С‹ СЂРµРґР°РєС‚РёСЂРѕРІР°С‚СЊ СЃР°Р№С‚ Рё СѓРїСЂР°РІР»СЏС‚СЊ Р·Р°СЏРІРєР°РјРё.</p>
-          <a href="auth.html" class="btn btn--primary">РџРµСЂРµР№С‚Рё РєРѕ РІС…РѕРґСѓ в†’</a>
+          <h2 class="panel-card__title" style="margin-bottom:10px;">Доступ только для администратора</h2>
+          <p class="section-desc" style="margin: 0 auto 20px;">Войдите под учётной записью с ролью <strong>ADMIN</strong>, чтобы редактировать сайт и управлять заявками.</p>
+          <a href="auth.html" class="btn btn--primary">Перейти ко входу →</a>
         </div>
 
         <div id="adminWorkspace" style="display:none;">
-          <!-- РЎРІРѕРґРєР° KPI -->
+          <!-- Сводка KPI -->
           <div class="kpi-grid">
             <div class="kpi-card">
-              <span class="kpi-card__label">РќРѕРІС‹Рµ Р·Р°СЏРІРєРё</span>
+              <span class="kpi-card__label">Новые заявки</span>
               <strong class="kpi-card__value" id="kpiNew" style="color: var(--accent);">0</strong>
             </div>
             <div class="kpi-card">
-              <span class="kpi-card__label">Р’СЃРµРіРѕ Р·Р°СЏРІРѕРє РІ CRM</span>
+              <span class="kpi-card__label">Всего заявок в CRM</span>
               <strong class="kpi-card__value" id="kpiTotal">0</strong>
             </div>
             <div class="kpi-card">
-              <span class="kpi-card__label">РЈСЃР»СѓРі РІ РїСЂР°Р№СЃ-Р»РёСЃС‚Рµ</span>
+              <span class="kpi-card__label">Услуг в прайс-листе</span>
               <strong class="kpi-card__value" id="kpiServices">0</strong>
             </div>
             <div class="kpi-card">
-              <span class="kpi-card__label">РџРѕР»СЊР·РѕРІР°С‚РµР»РµР№</span>
+              <span class="kpi-card__label">Пользователей</span>
               <strong class="kpi-card__value" id="kpiUsers">0</strong>
             </div>
           </div>
 
           <div class="admin-shell">
-            <!-- Р›РµРІРѕРµ РјРµРЅСЋ РІРєР»Р°РґРѕРє Р°РґРјРёРЅРєРё -->
+            <!-- Левое меню вкладок админки -->
             <aside class="admin-sidebar" role="tablist">
               <button type="button" class="admin-nav-btn is-active" data-admin-tab="bookings">
-                <span>Р—Р°СЏРІРєРё (CRM)</span>
+                <span>Заявки (CRM)</span>
                 <span class="admin-nav-count" id="cntBookings">0</span>
               </button>
               <button type="button" class="admin-nav-btn" data-admin-tab="services">
-                <span>РџСЂР°Р№СЃ Рё СѓСЃР»СѓРіРё</span>
+                <span>Прайс и услуги</span>
                 <span class="admin-nav-count" id="cntServices">0</span>
               </button>
               <button type="button" class="admin-nav-btn" data-admin-tab="cases">
-                <span>РљРµР№СЃС‹ Рё С„РѕС‚Рѕ</span>
+                <span>Кейсы и фото</span>
                 <span class="admin-nav-count" id="cntCases">0</span>
               </button>
               <button type="button" class="admin-nav-btn" data-admin-tab="reviews">
-                <span>РћС‚Р·С‹РІС‹</span>
+                <span>Отзывы</span>
                 <span class="admin-nav-count" id="cntReviews">0</span>
               </button>
               <button type="button" class="admin-nav-btn" data-admin-tab="faq">
-                <span>Р’РѕРїСЂРѕСЃС‹ (FAQ)</span>
+                <span>Вопросы (FAQ)</span>
                 <span class="admin-nav-count" id="cntFaq">0</span>
               </button>
               <button type="button" class="admin-nav-btn" data-admin-tab="settings">
-                <span>РќР°СЃС‚СЂРѕР№РєРё Рё Telegram</span>
+                <span>Настройки и Telegram</span>
               </button>
               <button type="button" class="admin-nav-btn" data-admin-tab="users">
-                <span>РџРѕР»СЊР·РѕРІР°С‚РµР»Рё Рё СЂРѕР»Рё</span>
+                <span>Пользователи и роли</span>
                 <span class="admin-nav-count" id="cntUsers">0</span>
               </button>
             </aside>
 
             <div>
-              <!-- 1. Р—РђРЇР’РљР -->
+              <!-- 1. ЗАЯВКИ -->
               <section class="panel-card admin-tab-panel is-active" data-panel="bookings">
                 <div class="panel-card__head">
-                  <h2 class="panel-card__title">Р’С…РѕРґСЏС‰РёРµ Р·Р°СЏРІРєРё РєР»РёРµРЅС‚РѕРІ</h2>
+                  <h2 class="panel-card__title">Входящие заявки клиентов</h2>
                   <select id="bookingStatusFilter" class="form__input" style="width:auto; padding:7px 12px;">
-                    <option value="all">Р’СЃРµ СЃС‚Р°С‚СѓСЃС‹</option>
-                    <option value="new">РќРѕРІС‹Рµ</option>
-                    <option value="confirmed">РџРѕРґС‚РІРµСЂР¶РґС‘РЅРЅС‹Рµ</option>
-                    <option value="in_progress">Р’ СЂР°Р±РѕС‚Рµ</option>
-                    <option value="completed">Р—Р°РІРµСЂС€С‘РЅРЅС‹Рµ</option>
-                    <option value="cancelled">РћС‚РјРµРЅС‘РЅРЅС‹Рµ</option>
+                    <option value="all">Все статусы</option>
+                    <option value="new">Новые</option>
+                    <option value="confirmed">Подтверждённые</option>
+                    <option value="in_progress">В работе</option>
+                    <option value="completed">Завершённые</option>
+                    <option value="cancelled">Отменённые</option>
                   </select>
                 </div>
                 <div class="booking-list" id="adminBookingsList"></div>
               </section>
 
-              <!-- 2. РЈРЎР›РЈР“Р -->
+              <!-- 2. УСЛУГИ -->
               <section class="panel-card admin-tab-panel" data-panel="services">
                 <div class="panel-card__head">
-                  <h2 class="panel-card__title">Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РїСЂР°Р№СЃ-Р»РёСЃС‚Р°</h2>
-                  <button type="button" class="btn btn--primary btn--sm" id="addServiceBtn">+ Р”РѕР±Р°РІРёС‚СЊ СѓСЃР»СѓРіСѓ</button>
+                  <h2 class="panel-card__title">Редактирование прайс-листа</h2>
+                  <button type="button" class="btn btn--primary btn--sm" id="addServiceBtn">+ Добавить услугу</button>
                 </div>
                 <div class="admin-table-wrap">
                   <table class="admin-table">
                     <thead>
                       <tr>
-                        <th>РљРѕРґ</th>
-                        <th>РќР°Р·РІР°РЅРёРµ Рё РєР°С‚РµРіРѕСЂРёСЏ</th>
-                        <th>РќРѕСЂРјРѕ-С‡Р°СЃС‹</th>
-                        <th>Р¦РµРЅР°</th>
-                        <th>Р”РµР№СЃС‚РІРёСЏ</th>
+                        <th>Код</th>
+                        <th>Название и категория</th>
+                        <th>Нормо-часы</th>
+                        <th>Цена</th>
+                        <th>Действия</th>
                       </tr>
                     </thead>
                     <tbody id="adminServicesBody"></tbody>
@@ -136,20 +136,20 @@
                 </div>
               </section>
 
-              <!-- 3. РљР•Р™РЎР« -->
+              <!-- 3. КЕЙСЫ -->
               <section class="panel-card admin-tab-panel" data-panel="cases">
                 <div class="panel-card__head">
-                  <h2 class="panel-card__title">РљРµР№СЃС‹ Рё С„РѕС‚РѕРіСЂР°С„РёРё СЂР°Р±РѕС‚</h2>
-                  <button type="button" class="btn btn--primary btn--sm" id="addCaseBtn">+ Р”РѕР±Р°РІРёС‚СЊ РєРµР№СЃ</button>
+                  <h2 class="panel-card__title">Кейсы и фотографии работ</h2>
+                  <button type="button" class="btn btn--primary btn--sm" id="addCaseBtn">+ Добавить кейс</button>
                 </div>
                 <div class="admin-table-wrap">
                   <table class="admin-table">
                     <thead>
                       <tr>
-                        <th>Р¤РѕС‚Рѕ</th>
-                        <th>РљРµР№СЃ Рё Р°РІС‚Рѕ</th>
-                        <th>РЎС‚РѕРёРјРѕСЃС‚СЊ / Р’СЂРµРјСЏ</th>
-                        <th>Р”РµР№СЃС‚РІРёСЏ</th>
+                        <th>Фото</th>
+                        <th>Кейс и авто</th>
+                        <th>Стоимость / Время</th>
+                        <th>Действия</th>
                       </tr>
                     </thead>
                     <tbody id="adminCasesBody"></tbody>
@@ -157,20 +157,20 @@
                 </div>
               </section>
 
-              <!-- 4. РћРўР—Р«Р’Р« -->
+              <!-- 4. ОТЗЫВЫ -->
               <section class="panel-card admin-tab-panel" data-panel="reviews">
                 <div class="panel-card__head">
-                  <h2 class="panel-card__title">РЈРїСЂР°РІР»РµРЅРёРµ РѕС‚Р·С‹РІР°РјРё</h2>
-                  <button type="button" class="btn btn--primary btn--sm" id="addReviewBtn">+ Р”РѕР±Р°РІРёС‚СЊ РѕС‚Р·С‹РІ</button>
+                  <h2 class="panel-card__title">Управление отзывами</h2>
+                  <button type="button" class="btn btn--primary btn--sm" id="addReviewBtn">+ Добавить отзыв</button>
                 </div>
                 <div class="admin-table-wrap">
                   <table class="admin-table">
                     <thead>
                       <tr>
-                        <th>РђРІС‚РѕСЂ Рё РїР»РѕС‰Р°РґРєР°</th>
-                        <th>РђРІС‚Рѕ Рё СЂР°Р±РѕС‚Р°</th>
-                        <th>РўРµРєСЃС‚</th>
-                        <th>Р”РµР№СЃС‚РІРёСЏ</th>
+                        <th>Автор и площадка</th>
+                        <th>Авто и работа</th>
+                        <th>Текст</th>
+                        <th>Действия</th>
                       </tr>
                     </thead>
                     <tbody id="adminReviewsBody"></tbody>
@@ -181,16 +181,16 @@
               <!-- 5. FAQ -->
               <section class="panel-card admin-tab-panel" data-panel="faq">
                 <div class="panel-card__head">
-                  <h2 class="panel-card__title">Р§Р°СЃС‚С‹Рµ РІРѕРїСЂРѕСЃС‹ (FAQ)</h2>
-                  <button type="button" class="btn btn--primary btn--sm" id="addFaqBtn">+ Р”РѕР±Р°РІРёС‚СЊ РІРѕРїСЂРѕСЃ</button>
+                  <h2 class="panel-card__title">Частые вопросы (FAQ)</h2>
+                  <button type="button" class="btn btn--primary btn--sm" id="addFaqBtn">+ Добавить вопрос</button>
                 </div>
                 <div class="admin-table-wrap">
                   <table class="admin-table">
                     <thead>
                       <tr>
-                        <th>Р’РѕРїСЂРѕСЃ</th>
-                        <th>РћС‚РІРµС‚</th>
-                        <th>Р”РµР№СЃС‚РІРёСЏ</th>
+                        <th>Вопрос</th>
+                        <th>Ответ</th>
+                        <th>Действия</th>
                       </tr>
                     </thead>
                     <tbody id="adminFaqBody"></tbody>
@@ -198,19 +198,19 @@
                 </div>
               </section>
 
-              <!-- 6. РќРђРЎРўР РћР™РљР РЎРђР™РўРђ Р TELEGRAM -->
+              <!-- 6. НАСТРОЙКИ САЙТА И TELEGRAM -->
               <section class="panel-card admin-tab-panel" data-panel="settings">
                 <div class="panel-card__head">
-                  <h2 class="panel-card__title">РўРµРєСЃС‚С‹ СЃР°Р№С‚Р°, РєРѕРЅС‚Р°РєС‚С‹ Рё Telegram-Р±РѕС‚</h2>
+                  <h2 class="panel-card__title">Тексты сайта, контакты и Telegram-бот</h2>
                 </div>
                 <form class="form" id="adminSettingsForm">
                   <div class="admin-form-grid">
                     <div class="form__group">
-                      <label class="form__label">РќР°Р·РІР°РЅРёРµ С‚РµС…С†РµРЅС‚СЂР°</label>
+                      <label class="form__label">Название техцентра</label>
                       <input type="text" name="site_name" class="form__input" />
                     </div>
                     <div class="form__group">
-                      <label class="form__label">РўРµР»РµС„РѕРЅ</label>
+                      <label class="form__label">Телефон</label>
                       <input type="text" name="phone" class="form__input mono" />
                     </div>
                     <div class="form__group">
@@ -218,56 +218,56 @@
                       <input type="email" name="email" class="form__input" />
                     </div>
                     <div class="form__group">
-                      <label class="form__label">РђРґСЂРµСЃ</label>
+                      <label class="form__label">Адрес</label>
                       <input type="text" name="address" class="form__input" />
                     </div>
                     <div class="form__group full">
-                      <label class="form__label">РџРѕРґСЃРєР°Р·РєР° Рє Р°РґСЂРµСЃСѓ (РїСЂРѕРµР·Рґ / РїР°СЂРєРѕРІРєР°)</label>
+                      <label class="form__label">Подсказка к адресу (проезд / парковка)</label>
                       <input type="text" name="address_hint" class="form__input" />
                     </div>
                     <div class="form__group">
-                      <label class="form__label">Р§Р°СЃ РѕС‚РєСЂС‹С‚РёСЏ (0вЂ“23)</label>
+                      <label class="form__label">Час открытия (0–23)</label>
                       <input type="number" name="open_hour" min="0" max="23" class="form__input mono" />
                     </div>
                     <div class="form__group">
-                      <label class="form__label">Р§Р°СЃ Р·Р°РєСЂС‹С‚РёСЏ (0вЂ“23)</label>
+                      <label class="form__label">Час закрытия (0–23)</label>
                       <input type="number" name="close_hour" min="0" max="23" class="form__input mono" />
                     </div>
                     <div class="form__group">
-                      <label class="form__label">Р“Р°СЂР°РЅС‚РёСЏ (РјРµСЃСЏС†РµРІ)</label>
+                      <label class="form__label">Гарантия (месяцев)</label>
                       <input type="number" name="warranty_months" class="form__input mono" />
                     </div>
                     <div class="form__group">
-                      <label class="form__label">РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕСЃС‚РѕРІ</label>
+                      <label class="form__label">Количество постов</label>
                       <input type="number" name="posts_count" class="form__input mono" />
                     </div>
                     <div class="form__group full">
-                      <label class="form__label">РџР»Р°С€РєР° РЅР°Рґ Р·Р°РіРѕР»РѕРІРєРѕРј Hero</label>
+                      <label class="form__label">Плашка над заголовком Hero</label>
                       <input type="text" name="hero_kicker" class="form__input" />
                     </div>
                     <div class="form__group full">
-                      <label class="form__label">Р“Р»Р°РІРЅС‹Р№ Р·Р°РіРѕР»РѕРІРѕРє Hero (H1)</label>
+                      <label class="form__label">Главный заголовок Hero (H1)</label>
                       <input type="text" name="hero_title" class="form__input" />
                     </div>
                     <div class="form__group full">
-                      <label class="form__label">РџРѕРґР·Р°РіРѕР»РѕРІРѕРє Hero</label>
+                      <label class="form__label">Подзаголовок Hero</label>
                       <textarea name="hero_subtitle" rows="3" class="form__input"></textarea>
                     </div>
                     <div class="form__group">
-                      <label class="form__label">Р‘РµР№РґР¶ Р°РєС†РёРё</label>
+                      <label class="form__label">Бейдж акции</label>
                       <input type="text" name="promo_badge" class="form__input" />
                     </div>
                     <div class="form__group">
-                      <label class="form__label">РўРµРєСЃС‚ Р°РєС†РёРё РЅР° РіР»Р°РІРЅРѕРј СЌРєСЂР°РЅРµ</label>
+                      <label class="form__label">Текст акции на главном экране</label>
                       <input type="text" name="promo_text" class="form__input" />
                     </div>
                     <div class="form__group full">
-                      <label class="form__label">РћР±СЃР»СѓР¶РёРІР°РµРјС‹Рµ РјР°СЂРєРё (С‡РµСЂРµР· Р·Р°РїСЏС‚СѓСЋ)</label>
+                      <label class="form__label">Обслуживаемые марки (через запятую)</label>
                       <input type="text" name="brands_csv" class="form__input" />
                     </div>
 
                     <div class="form__group full" style="padding-top:12px; border-top:1px solid var(--border);">
-                      <strong style="color:var(--accent);">РЎРµСЂРІРµСЂРЅР°СЏ РёРЅС‚РµРіСЂР°С†РёСЏ Telegram (С‚РѕРєРµРЅ СЃРєСЂС‹С‚ РѕС‚ Р±СЂР°СѓР·РµСЂР°)</strong>
+                      <strong style="color:var(--accent);">Серверная интеграция Telegram (токен скрыт от браузера)</strong>
                     </div>
                     <div class="form__group">
                       <label class="form__label">Telegram Bot Token (@BotFather)</label>
@@ -275,31 +275,31 @@
                     </div>
                     <div class="form__group">
                       <label class="form__label">Telegram Chat ID</label>
-                      <input type="text" name="telegram_chat_id" class="form__input mono" placeholder="123456789 РёР»Рё -100..." />
+                      <input type="text" name="telegram_chat_id" class="form__input mono" placeholder="123456789 или -100..." />
                     </div>
                   </div>
 
                   <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
-                    <button type="submit" class="btn btn--primary">РЎРѕС…СЂР°РЅРёС‚СЊ РІСЃРµ РЅР°СЃС‚СЂРѕР№РєРё</button>
-                    <button type="button" class="btn btn--outline" id="adminTgTestBtn">РћС‚РїСЂР°РІРёС‚СЊ С‚РµСЃС‚ РІ Telegram</button>
+                    <button type="submit" class="btn btn--primary">Сохранить все настройки</button>
+                    <button type="button" class="btn btn--outline" id="adminTgTestBtn">Отправить тест в Telegram</button>
                   </div>
                   <p class="form__status" id="settingsStatus"></p>
                 </form>
               </section>
 
-              <!-- 7. РџРћР›Р¬Р—РћР’РђРўР•Р›Р -->
+              <!-- 7. ПОЛЬЗОВАТЕЛИ -->
               <section class="panel-card admin-tab-panel" data-panel="users">
                 <div class="panel-card__head">
-                  <h2 class="panel-card__title">Р—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»Рё Рё СЂРѕР»Рё</h2>
+                  <h2 class="panel-card__title">Зарегистрированные пользователи и роли</h2>
                 </div>
                 <div class="admin-table-wrap">
                   <table class="admin-table">
                     <thead>
                       <tr>
-                        <th>РРјСЏ Рё Email</th>
-                        <th>РўРµР»РµС„РѕРЅ / РђРІС‚Рѕ</th>
-                        <th>Р РѕР»СЊ</th>
-                        <th>РЈРїСЂР°РІР»РµРЅРёРµ</th>
+                        <th>Имя и Email</th>
+                        <th>Телефон / Авто</th>
+                        <th>Роль</th>
+                        <th>Управление</th>
                       </tr>
                     </thead>
                     <tbody id="adminUsersBody"></tbody>
@@ -313,13 +313,13 @@
     </section>
   </main>
 
-  <!-- РЈРЅРёРІРµСЂСЃР°Р»СЊРЅР°СЏ РјРѕРґР°Р»РєР° СЃРѕР·РґР°РЅРёСЏ / СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ СЃСѓС‰РЅРѕСЃС‚РµР№ РІ Р°РґРјРёРЅРєРµ -->
+  <!-- Универсальная модалка создания / редактирования сущностей в админке -->
   <div class="modal" id="editorModal" aria-hidden="true" role="dialog">
     <div class="modal__backdrop" data-close-editor></div>
     <div class="modal__dialog" style="max-width:580px; max-height:90vh; overflow-y:auto;">
       <div class="modal__header">
-        <h3 id="editorTitle">Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ</h3>
-        <button type="button" class="modal__close" data-close-editor aria-label="Р—Р°РєСЂС‹С‚СЊ">вњ•</button>
+        <h3 id="editorTitle">Редактирование</h3>
+        <button type="button" class="modal__close" data-close-editor aria-label="Закрыть">✕</button>
       </div>
       <form class="form" id="editorForm"></form>
     </div>
@@ -327,8 +327,8 @@
 
   <div id="siteFooter"></div>
 
-  <script src="js/data.js"></script>
-  <script src="js/shared.js?v=3"></script>
-  <script src="js/admin.js"></script>
+  <script src="js/data.js?v=4"></script>
+  <script src="js/shared.js?v=4"></script>
+  <script src="js/admin.js?v=4"></script>
 </body>
 </html>
