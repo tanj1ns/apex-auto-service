@@ -31,8 +31,9 @@ npm start
 
 | Роль | Email | Пароль |
 |---|---|---|
-| **Администратор (`ADMIN`)** | `admin@apex-auto.ru` | `admin12345` |
 | **Клиент (`USER`)** | `client@apex-auto.ru` | `client12345` |
+
+Учётные данные администратора (`/admin`) задаются через переменные окружения `ADMIN_EMAIL` и `ADMIN_PASSWORD`.
 
 ## Подключение Telegram-бота
 

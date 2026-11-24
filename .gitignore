@@ -3,6 +3,7 @@ data/*.db
 data/*.db-wal
 data/*.db-shm
 .env
+.env.*
 node_modules/
 images/uploads/
 .DS_Store

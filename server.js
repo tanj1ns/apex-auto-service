@@ -875,6 +875,6 @@ hardenHttpServer(server);
 
 server.listen(PORT, HOST, () => {
   console.log(`АПЕКС АВТО запущен на http://localhost:${PORT}`);
-  console.log('Админ по умолчанию: admin@apex-auto.ru / admin12345');
+  console.log('Админ-вход настраивается через ADMIN_EMAIL / ADMIN_PASSWORD');
   console.log('Клиент по умолчанию: client@apex-auto.ru / client12345');
 });

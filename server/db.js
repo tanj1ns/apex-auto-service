@@ -107,21 +107,28 @@ function initDatabase() {
   return db;
 }
 
+const DEFAULT_ADMIN_SCRYPT =
+  '24daecf256e1a175c7ce29140067acf1:69eeae9f01f0f593f3b6d99b87808576b57c05c43135bb4f274936b679228317493c2f05540c6f03e13164cfcf17d88dca8253e6f5396532e35b46a28bcb2c1e';
+
 function seedInitialData(db) {
   const now = new Date().toISOString();
 
   // 1. Пользователи по умолчанию (администратор + тестовый клиент)
   const userCount = db.prepare('SELECT COUNT(*) AS cnt FROM users').get().cnt;
   if (userCount === 0) {
+    const adminEmail = (process.env.ADMIN_EMAIL || 'admin@apex-auto.ru').trim().toLowerCase();
+    const adminPassHash = process.env.ADMIN_PASSWORD
+      ? hashPassword(process.env.ADMIN_PASSWORD)
+      : DEFAULT_ADMIN_SCRYPT;
     const insertUser = db.prepare(
       'INSERT INTO users (name, email, phone, car, password_hash, role, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)'
     );
     insertUser.run(
       'Администратор',
-      'admin@apex-auto.ru',
+      adminEmail,
       '+7 (495) 123-45-67',
       'Служебный аккаунт',
-      hashPassword('admin12345'),
+      adminPassHash,
       'admin',
       now
     );
