@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; frame-src https://www.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Онлайн-запись на сервис — АПЕКС АВТО</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f97316'/%3E%3Cpath d='M44.5 23.5l-6.2 6.2-4-4 6.2-6.2a10 10 0 00-13.2 13.2L16.5 43.5a3 3 0 004.2 4.2l10.8-10.8a10 10 0 0013-13.4z' fill='%23ffffff'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-  <script>
-    (function () {
-      var t = localStorage.getItem('apex_theme');
-      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-    })();
-  </script>
+  <script src="js/theme-init.js"></script>
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/app-pages.css" />
@@ -117,6 +114,11 @@
               <div class="form__group">
                 <label for="comment" class="form__label">Комментарий, VIN или смета из калькулятора</label>
                 <textarea id="comment" name="comment" rows="4" class="form__input" placeholder="Укажите VIN или опишите симптомы"></textarea>
+              </div>
+
+              <div class="hp-trap" aria-hidden="true">
+                <label for="websiteField">Ваш сайт</label>
+                <input type="text" id="websiteField" name="website" tabindex="-1" autocomplete="off" />
               </div>
 
               <button type="submit" class="btn btn--primary btn--full btn--lg" id="submitBtn">Отправить заявку</button>

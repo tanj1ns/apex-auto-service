@@ -15,6 +15,15 @@ const {
   getSessionUser,
   buildSessionCookie
 } = require('./server/auth');
+const {
+  apiLimiter,
+  loginLimiter,
+  registerLimiter,
+  bookingLimiter,
+  applySecurityHeaders,
+  verifySameOrigin,
+  hardenHttpServer
+} = require('./server/security');
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
@@ -69,7 +78,7 @@ function sendJson(res, status, data, extraHeaders = {}) {
   res.end(body);
 }
 
-function readJsonBody(req, maxBytes = 6 * 1024 * 1024) {
+function readJsonBody(req, maxBytes = 32 * 1024) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     let total = 0;
@@ -235,14 +244,32 @@ function serveStaticFile(res, relFilePath) {
   const safePath = path.normalize(relFilePath).replace(/^(\.\.[/\\])+/, '');
   const absPath = path.join(ROOT_DIR, safePath);
 
-  // Запрещаем доступ к серверным файлам и базе данных
+  // Запрещаем доступ к серверным файлам, конфигам, скрытым файлам и базе данных
   const relToRoot = path.relative(ROOT_DIR, absPath);
+  const relUnix = relToRoot.split(path.sep).join('/');
+  const baseName = path.basename(absPath);
   if (
     relToRoot.startsWith('..') ||
-    relToRoot.startsWith('server') ||
-    relToRoot.startsWith('data') ||
-    relToRoot === 'server.js' ||
-    relToRoot === 'package.json'
+    path.isAbsolute(relToRoot) ||
+    baseName.startsWith('.') ||
+    relUnix === 'server' ||
+    relUnix.startsWith('server/') ||
+    relUnix === 'data' ||
+    relUnix.startsWith('data/') ||
+    relUnix === 'api' ||
+    relUnix.startsWith('api/') ||
+    relUnix === 'netlify' ||
+    relUnix.startsWith('netlify/') ||
+    [
+      'server.js',
+      'package.json',
+      'package-lock.json',
+      'Dockerfile',
+      'amvera.yml',
+      'PROMPTS.md',
+      'TELEGRAM_SETUP.md',
+      'telegram-config.js'
+    ].includes(relUnix)
   ) {
     res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('Forbidden');
@@ -269,6 +296,21 @@ async function handleApi(req, res, pathname) {
     return sendJson(res, 200, { ok: true, service: 'apex-auto-service' });
   }
 
+  const rate = apiLimiter(req);
+  if (!rate.allowed) {
+    return sendJson(
+      res,
+      429,
+      { ok: false, error: 'Слишком много запросов. Подождите минуту.' },
+      { 'Retry-After': String(rate.retryAfterSec) }
+    );
+  }
+
+  if (!verifySameOrigin(req)) {
+    return sendJson(res, 403, { ok: false, error: 'Запрос отклонён политикой безопасности источника (CSRF)' });
+  }
+
+  const isSecure = req.headers['x-forwarded-proto'] === 'https' || process.env.NODE_ENV === 'production';
   const user = getSessionUser(db, req);
 
   // ==================== ПУБЛИЧНЫЕ ДАННЫЕ ====================
@@ -287,11 +329,21 @@ async function handleApi(req, res, pathname) {
   }
 
   if (method === 'POST' && pathname === '/api/auth/register') {
+    const regRate = registerLimiter(req);
+    if (!regRate.allowed) {
+      return sendJson(
+        res,
+        429,
+        { ok: false, error: 'Слишком много попыток регистрации. Попробуйте позже.' },
+        { 'Retry-After': String(regRate.retryAfterSec) }
+      );
+    }
+
     const body = await readJsonBody(req);
-    const name = String(body.name || '').trim();
-    const email = String(body.email || '').trim().toLowerCase();
-    const phone = String(body.phone || '').trim();
-    const car = String(body.car || '').trim();
+    const name = String(body.name || '').trim().slice(0, 100);
+    const email = String(body.email || '').trim().toLowerCase().slice(0, 120);
+    const phone = String(body.phone || '').trim().slice(0, 32);
+    const car = String(body.car || '').trim().slice(0, 100);
     const password = String(body.password || '');
 
     if (name.length < 2) return sendJson(res, 400, { ok: false, error: 'Введите имя (минимум 2 символа)' });
@@ -323,11 +375,21 @@ async function handleApi(req, res, pathname) {
         ok: true,
         user: { id: userId, name, email, phone, car, role: 'user' }
       },
-      { 'Set-Cookie': buildSessionCookie(session.token) }
+      { 'Set-Cookie': buildSessionCookie(session.token, false, isSecure) }
     );
   }
 
   if (method === 'POST' && pathname === '/api/auth/login') {
+    const loginRate = loginLimiter(req);
+    if (!loginRate.allowed) {
+      return sendJson(
+        res,
+        429,
+        { ok: false, error: 'Слишком много попыток входа. Попробуйте через 10 минут.' },
+        { 'Retry-After': String(loginRate.retryAfterSec) }
+      );
+    }
+
     const body = await readJsonBody(req);
     const email = String(body.email || '').trim().toLowerCase();
     const password = String(body.password || '');
@@ -352,13 +414,13 @@ async function handleApi(req, res, pathname) {
           role: row.role
         }
       },
-      { 'Set-Cookie': buildSessionCookie(session.token) }
+      { 'Set-Cookie': buildSessionCookie(session.token, false, isSecure) }
     );
   }
 
   if (method === 'POST' && pathname === '/api/auth/logout') {
     if (user && user.token) deleteSession(db, user.token);
-    return sendJson(res, 200, { ok: true }, { 'Set-Cookie': buildSessionCookie('', true) });
+    return sendJson(res, 200, { ok: true }, { 'Set-Cookie': buildSessionCookie('', true, isSecure) });
   }
 
   // ==================== ЛИЧНЫЙ КАБИНЕТ ПОЛЬЗОВАТЕЛЯ ====================
@@ -387,14 +449,32 @@ async function handleApi(req, res, pathname) {
 
   // ==================== СОЗДАНИЕ ЗАЯВКИ (САЙТ + TELEGRAM) ====================
   if (method === 'POST' && pathname === '/api/bookings') {
+    const bookRate = bookingLimiter(req);
+    if (!bookRate.allowed) {
+      return sendJson(
+        res,
+        429,
+        { ok: false, error: 'Слишком много заявок с вашего IP. Подождите несколько минут.' },
+        { 'Retry-After': String(bookRate.retryAfterSec) }
+      );
+    }
+
     const body = await readJsonBody(req);
-    const name = String(body.name || '').trim();
-    const phone = String(body.phone || '').trim();
-    const car = String(body.car || '').trim();
-    const service = String(body.service || '').trim();
-    const visitDay = String(body.visitDay || '').trim();
-    const visitTime = String(body.visitTime || '').trim();
-    const comment = String(body.comment || '').trim();
+    if (String(body.website || '').trim() !== '') {
+      return sendJson(res, 201, {
+        ok: true,
+        bookingId: Math.floor(100 + Math.random() * 800),
+        telegramSent: false
+      });
+    }
+
+    const name = String(body.name || '').trim().slice(0, 100);
+    const phone = String(body.phone || '').trim().slice(0, 32);
+    const car = String(body.car || '').trim().slice(0, 100);
+    const service = String(body.service || '').trim().slice(0, 120);
+    const visitDay = String(body.visitDay || '').trim().slice(0, 40);
+    const visitTime = String(body.visitTime || '').trim().slice(0, 40);
+    const comment = String(body.comment || '').trim().slice(0, 1500);
 
     if (name.length < 2 || phone.replace(/\D/g, '').length < 10) {
       return sendJson(res, 400, { ok: false, error: 'Укажите корректное имя и номер телефона' });
@@ -648,7 +728,7 @@ async function handleApi(req, res, pathname) {
 
     // Загрузка фото для кейсов
     if (method === 'POST' && pathname === '/api/admin/upload') {
-      const body = await readJsonBody(req);
+      const body = await readJsonBody(req, 6 * 1024 * 1024);
       const dataUrl = String(body.dataUrl || '');
       const match = dataUrl.match(/^data:image\/(png|jpeg|jpg|webp);base64,([A-Za-z0-9+/=]+)$/);
       if (!match) {
@@ -753,6 +833,7 @@ async function handleApi(req, res, pathname) {
 }
 
 const server = http.createServer(async (req, res) => {
+  applySecurityHeaders(res);
   try {
     const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
     const pathname = parsedUrl.pathname;
@@ -789,6 +870,8 @@ const server = http.createServer(async (req, res) => {
     sendJson(res, 500, { ok: false, error: err.message || 'Внутренняя ошибка сервера' });
   }
 });
+
+hardenHttpServer(server);
 
 server.listen(PORT, HOST, () => {
   console.log(`АПЕКС АВТО запущен на http://localhost:${PORT}`);

@@ -2009,3 +2009,23 @@ textarea {
     padding: 0 !important;
   }
 }
+
+/* ==================== ЗАЩИТА ФОРМ И МЕДИА ==================== */
+.hp-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__bg-img,
+.case-card__media,
+.case-card__media img,
+.lightbox__img,
+.logo {
+  user-select: none;
+  -webkit-user-drag: none;
+}

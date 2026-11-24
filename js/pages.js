@@ -54,7 +54,7 @@
           return `
             <article class="case-card reveal" tabindex="0" role="button" data-case-index="${globalIdx >= 0 ? globalIdx : 0}">
               <div class="case-card__media">
-                <img src="${S.escapeHtml(c.image)}" alt="${S.escapeHtml(c.alt || c.title)}" loading="lazy" />
+                <img src="${S.escapeHtml(c.image)}" alt="${S.escapeHtml(c.alt || c.title)}" loading="lazy" draggable="false" />
                 <div class="case-card__badges">
                   <span class="case-badge case-badge--accent">${S.escapeHtml(c.tag)}</span>
                   <span class="case-badge mono">${S.escapeHtml(c.caseCode || '')}</span>
@@ -400,6 +400,7 @@
 
   // ==================== 5. СТРАНИЦА ОНЛАЙН-ЗАПИСИ ====================
   if (page === 'booking') {
+    const formOpenedAt = Date.now();
     const form = document.getElementById('bookingForm');
     const nameInput = document.getElementById('name');
     const phoneInput = document.getElementById('phone');
@@ -487,6 +488,21 @@
       }
 
       const fd = new FormData(form);
+      const elapsedMs = Date.now() - formOpenedAt;
+      if (elapsedMs < 1200) {
+        formStatus.textContent = 'Пожалуйста, заполните форму вручную.';
+        formStatus.className = 'form__status is-error';
+        return;
+      }
+
+      const lastBookingTs = Number(localStorage.getItem('apex_last_booking_ts') || 0);
+      if (lastBookingTs && Date.now() - lastBookingTs < 45000) {
+        const waitSec = Math.ceil((45000 - (Date.now() - lastBookingTs)) / 1000);
+        formStatus.textContent = `Вы уже отправили заявку. Повторная отправка доступна через ${waitSec} сек.`;
+        formStatus.className = 'form__status is-error';
+        return;
+      }
+
       const payload = {
         name: String(fd.get('name') || '').trim(),
         phone: String(fd.get('phone') || '').trim(),
@@ -494,7 +510,8 @@
         service: String(fd.get('service') || '').trim(),
         visitDay: String(fd.get('visitDay') || '').trim(),
         visitTime: String(fd.get('visitTime') || '').trim(),
-        comment: String(fd.get('comment') || '').trim()
+        comment: String(fd.get('comment') || '').trim(),
+        website: String(fd.get('website') || '')
       };
 
       submitBtn.disabled = true;
@@ -503,6 +520,7 @@
 
       try {
         const res = await S.api('/api/bookings', { method: 'POST', body: payload });
+        localStorage.setItem('apex_last_booking_ts', String(Date.now()));
         const tgNote = res.telegramSent ? ' и отправлена мастеру в Telegram' : '';
         const accNote = data.user ? ' Статус можно отслеживать в Личном кабинете.' : '';
         formStatus.textContent = `Заявка #${res.bookingId} принята${tgNote}! Перезвоним в течение 10 минут.${accNote}`;

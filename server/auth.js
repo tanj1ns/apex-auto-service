@@ -38,6 +38,7 @@ function parseCookies(cookieHeader) {
 }
 
 function createSession(db, userId) {
+  db.prepare('DELETE FROM sessions WHERE expires_at < ?').run(Date.now());
   const token = crypto.randomBytes(32).toString('hex');
   const expiresAt = Date.now() + SESSION_TTL_MS;
   db.prepare('INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)').run(
@@ -85,12 +86,13 @@ function getSessionUser(db, req) {
   };
 }
 
-function buildSessionCookie(token, clear = false) {
+function buildSessionCookie(token, clear = false, isSecure = false) {
+  const sec = isSecure ? '; Secure' : '';
   if (clear) {
-    return `${SESSION_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`;
+    return `${SESSION_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${sec}`;
   }
   const maxAgeSec = Math.floor(SESSION_TTL_MS / 1000);
-  return `${SESSION_COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAgeSec}`;
+  return `${SESSION_COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAgeSec}${sec}`;
 }
 
 module.exports = {

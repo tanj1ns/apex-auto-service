@@ -24,6 +24,8 @@
   let staticMode = false;
   const DEMO_DB_KEY = 'apex_static_demo_db_v2';
   const DEMO_SESSION_KEY = 'apex_static_demo_user_v2';
+  const APEX_LOGIN_GUARD_KEY = 'apex_login_guard_v1';
+  const APEX_LAST_BOOKING_KEY = 'apex_last_booking_ts';
   const APEX_ADMIN_SALT = 'apex-adm-v1:';
   const APEX_ADMIN_HASH = '1bb6e8fe4353fae74bc93c29e4d4f57777f97c2b097f7c01a95759659bda08a3';
 
@@ -137,6 +139,25 @@
     }
 
     if (method === 'POST' && url === '/api/auth/login') {
+      const now = Date.now();
+      let guard = { attempts: 0, firstAt: now, lockedUntil: 0 };
+      try {
+        const savedGuard = JSON.parse(localStorage.getItem(APEX_LOGIN_GUARD_KEY) || 'null');
+        if (savedGuard && typeof savedGuard === 'object') guard = savedGuard;
+      } catch {
+        // ignore
+      }
+
+      await new Promise((r) => setTimeout(r, 400));
+
+      if (guard.lockedUntil && guard.lockedUntil > now) {
+        throw new Error('Слишком много попыток входа. Повторите через несколько минут.');
+      }
+
+      if (!guard.firstAt || now - guard.firstAt > 600_000) {
+        guard = { attempts: 0, firstAt: now, lockedUntil: 0 };
+      }
+
       const email = String(body.email || '').trim().toLowerCase();
       const password = String(body.password || '');
       const candidate = db.users.find((u) => u.email.toLowerCase() === email);
@@ -149,7 +170,19 @@
           ok = candidate.password === password;
         }
       }
-      if (!candidate || !ok) throw new Error('Неверный email или пароль');
+      if (!candidate || !ok) {
+        guard.attempts = (guard.attempts || 0) + 1;
+        if (guard.attempts >= 5) {
+          guard.lockedUntil = Date.now() + 5 * 60 * 1000;
+        }
+        localStorage.setItem(APEX_LOGIN_GUARD_KEY, JSON.stringify(guard));
+        if (guard.lockedUntil > Date.now()) {
+          throw new Error('Слишком много попыток входа. Доступ заблокирован на 5 минут.');
+        }
+        throw new Error('Неверный email или пароль');
+      }
+
+      localStorage.removeItem(APEX_LOGIN_GUARD_KEY);
       localStorage.setItem(DEMO_SESSION_KEY, String(candidate.id));
       return { ok: true, user: { id: candidate.id, name: candidate.name, email: candidate.email, phone: candidate.phone, car: candidate.car, role: candidate.role } };
     }
@@ -184,16 +217,25 @@
     }
 
     if (method === 'POST' && url === '/api/bookings') {
+      if (String(body.website || '').trim() !== '') {
+        return { ok: true, bookingId: Math.floor(100 + Math.random() * 800), telegramSent: false, demoMode: true };
+      }
+
+      const lastTs = Number(localStorage.getItem(APEX_LAST_BOOKING_KEY) || 0);
+      if (lastTs && Date.now() - lastTs < 45000) {
+        throw new Error('Пожалуйста, подождите 45 секунд перед следующей заявкой.');
+      }
+
       const item = {
         id: ++db.nextId,
         user_id: user ? user.id : null,
-        name: String(body.name || '').trim(),
-        phone: String(body.phone || '').trim(),
-        car: String(body.car || '').trim(),
-        service: String(body.service || 'Консультация').trim(),
-        visit_day: String(body.day || '').trim(),
-        visit_time: String(body.time || '').trim(),
-        comment: String(body.comment || '').trim(),
+        name: String(body.name || '').trim().slice(0, 100),
+        phone: String(body.phone || '').trim().slice(0, 32),
+        car: String(body.car || '').trim().slice(0, 100),
+        service: String(body.service || 'Консультация').trim().slice(0, 120),
+        visit_day: String(body.visitDay || body.day || '').trim().slice(0, 40),
+        visit_time: String(body.visitTime || body.time || '').trim().slice(0, 40),
+        comment: String(body.comment || '').trim().slice(0, 1500),
         status: 'new',
         admin_note: '',
         telegram_sent: 0,
@@ -794,7 +836,7 @@
         <button type="button" class="lightbox__close" id="lightboxClose" aria-label="Закрыть">✕</button>
         <button type="button" class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Предыдущий">‹</button>
         <figure class="lightbox__figure">
-          <img src="" alt="" id="lightboxImg" class="lightbox__img" />
+          <img src="" alt="" id="lightboxImg" class="lightbox__img" draggable="false" />
           <figcaption class="lightbox__caption">
             <div class="lightbox__meta">
               <span class="mono" id="lightboxCar"></span>
@@ -868,6 +910,18 @@
     );
     items.forEach((el) => observer.observe(el));
   }
+
+  const PROTECTED_MEDIA_SELECTOR = 'img, .case-card__media, .hero__bg, .lightbox__figure';
+  document.addEventListener('contextmenu', (e) => {
+    if (e.target && e.target.closest && e.target.closest(PROTECTED_MEDIA_SELECTOR)) {
+      e.preventDefault();
+    }
+  });
+  document.addEventListener('dragstart', (e) => {
+    if (e.target && e.target.closest && e.target.closest(PROTECTED_MEDIA_SELECTOR)) {
+      e.preventDefault();
+    }
+  });
 
   window.ApexShared = {
     STATUS_MAP,
