@@ -1,23 +1,23 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; frame-src https://yandex.ru https://*.yandex.ru https://www.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>Вход и регистрация — АПЕКС АВТО</title>
-  <meta name="description" content="Личный кабинет клиента техцентра АПЕКС АВТО: вход, регистрация и отслеживание статусов ремонта." />
+  <title>Р’С…РѕРґ Рё СЂРµРіРёСЃС‚СЂР°С†РёСЏ вЂ” РђРџР•РљРЎ РђР’РўРћ</title>
+  <meta name="description" content="Р›РёС‡РЅС‹Р№ РєР°Р±РёРЅРµС‚ РєР»РёРµРЅС‚Р° С‚РµС…С†РµРЅС‚СЂР° РђРџР•РљРЎ РђР’РўРћ: РІС…РѕРґ, СЂРµРіРёСЃС‚СЂР°С†РёСЏ Рё РѕС‚СЃР»РµР¶РёРІР°РЅРёРµ СЃС‚Р°С‚СѓСЃРѕРІ СЂРµРјРѕРЅС‚Р°." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Личный кабинет — АПЕКС АВТО" />
-  <meta property="og:description" content="Отслеживайте историю обслуживания и статусы ремонта автомобиля онлайн." />
+  <meta property="og:title" content="Р›РёС‡РЅС‹Р№ РєР°Р±РёРЅРµС‚ вЂ” РђРџР•РљРЎ РђР’РўРћ" />
+  <meta property="og:description" content="РћС‚СЃР»РµР¶РёРІР°Р№С‚Рµ РёСЃС‚РѕСЂРёСЋ РѕР±СЃР»СѓР¶РёРІР°РЅРёСЏ Рё СЃС‚Р°С‚СѓСЃС‹ СЂРµРјРѕРЅС‚Р° Р°РІС‚РѕРјРѕР±РёР»СЏ РѕРЅР»Р°Р№РЅ." />
   <meta property="og:url" content="https://tanj1ns.github.io/apex-auto-service/auth.html" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f97316'/%3E%3Cpath d='M44.5 23.5l-6.2 6.2-4-4 6.2-6.2a10 10 0 00-13.2 13.2L16.5 43.5a3 3 0 004.2 4.2l10.8-10.8a10 10 0 0013-13.4z' fill='%23ffffff'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-  <script src="js/theme-init.js"></script>
+  <script src="js/theme-init.js?v=2"></script>
   <link rel="stylesheet" href="css/tokens.css" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=2" />
   <link rel="stylesheet" href="css/app-pages.css" />
 </head>
 <body data-page="auth">
@@ -26,11 +26,11 @@
   <main>
     <section class="page-hero">
       <div class="container">
-        <nav class="breadcrumbs" aria-label="Хлебные крошки">
-          <a href="index.html">Главная</a><span>/</span><span>Авторизация</span>
+        <nav class="breadcrumbs" aria-label="РҐР»РµР±РЅС‹Рµ РєСЂРѕС€РєРё">
+          <a href="index.html">Р“Р»Р°РІРЅР°СЏ</a><span>/</span><span>РђРІС‚РѕСЂРёР·Р°С†РёСЏ</span>
         </nav>
-        <h1 class="page-hero__title">Личный кабинет клиента</h1>
-        <p class="page-hero__subtitle">Войдите или зарегистрируйтесь, чтобы отслеживать историю обслуживания, статус ремонта и сохранять данные автомобиля.</p>
+        <h1 class="page-hero__title">Р›РёС‡РЅС‹Р№ РєР°Р±РёРЅРµС‚ РєР»РёРµРЅС‚Р°</h1>
+        <p class="page-hero__subtitle">Р’РѕР№РґРёС‚Рµ РёР»Рё Р·Р°СЂРµРіРёСЃС‚СЂРёСЂСѓР№С‚РµСЃСЊ, С‡С‚РѕР±С‹ РѕС‚СЃР»РµР¶РёРІР°С‚СЊ РёСЃС‚РѕСЂРёСЋ РѕР±СЃР»СѓР¶РёРІР°РЅРёСЏ, СЃС‚Р°С‚СѓСЃ СЂРµРјРѕРЅС‚Р° Рё СЃРѕС…СЂР°РЅСЏС‚СЊ РґР°РЅРЅС‹Рµ Р°РІС‚РѕРјРѕР±РёР»СЏ.</p>
       </div>
     </section>
 
@@ -39,29 +39,29 @@
         <div class="auth-layout">
           <div class="auth-card">
             <div class="auth-tabs" role="tablist">
-              <button type="button" class="auth-tab is-active" id="tabLogin" data-auth-tab="login">Вход</button>
-              <button type="button" class="auth-tab" id="tabRegister" data-auth-tab="register">Регистрация</button>
+              <button type="button" class="auth-tab is-active" id="tabLogin" data-auth-tab="login">Р’С…РѕРґ</button>
+              <button type="button" class="auth-tab" id="tabRegister" data-auth-tab="register">Р РµРіРёСЃС‚СЂР°С†РёСЏ</button>
             </div>
 
-            <!-- Форма входа -->
+            <!-- Р¤РѕСЂРјР° РІС…РѕРґР° -->
             <form class="form" id="loginForm">
               <div class="form__group">
                 <label for="loginEmail" class="form__label">Email</label>
                 <input type="email" id="loginEmail" name="email" class="form__input" placeholder="you@example.com" required autocomplete="email" />
               </div>
               <div class="form__group">
-                <label for="loginPassword" class="form__label">Пароль</label>
-                <input type="password" id="loginPassword" name="password" class="form__input" placeholder="Введите пароль" required autocomplete="current-password" />
+                <label for="loginPassword" class="form__label">РџР°СЂРѕР»СЊ</label>
+                <input type="password" id="loginPassword" name="password" class="form__input" placeholder="Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ" required autocomplete="current-password" />
               </div>
-              <button type="submit" class="btn btn--primary btn--full btn--lg" id="loginSubmit">Войти в аккаунт</button>
+              <button type="submit" class="btn btn--primary btn--full btn--lg" id="loginSubmit">Р’РѕР№С‚Рё РІ Р°РєРєР°СѓРЅС‚</button>
               <p class="form__status" id="loginStatus" role="status"></p>
             </form>
 
-            <!-- Форма регистрации (роль: обычный пользователь) -->
+            <!-- Р¤РѕСЂРјР° СЂРµРіРёСЃС‚СЂР°С†РёРё (СЂРѕР»СЊ: РѕР±С‹С‡РЅС‹Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ) -->
             <form class="form" id="registerForm" style="display:none;">
               <div class="form__group">
-                <label for="regName" class="form__label">Ваше имя *</label>
-                <input type="text" id="regName" name="name" class="form__input" placeholder="Алексей Смирнов" required />
+                <label for="regName" class="form__label">Р’Р°С€Рµ РёРјСЏ *</label>
+                <input type="text" id="regName" name="name" class="form__input" placeholder="РђР»РµРєСЃРµР№ РЎРјРёСЂРЅРѕРІ" required />
               </div>
               <div class="form__group">
                 <label for="regEmail" class="form__label">Email *</label>
@@ -69,45 +69,45 @@
               </div>
               <div class="form__row">
                 <div class="form__group">
-                  <label for="regPhone" class="form__label">Телефон</label>
+                  <label for="regPhone" class="form__label">РўРµР»РµС„РѕРЅ</label>
                   <input type="tel" id="regPhone" name="phone" class="form__input mono" placeholder="+7 (999) 123-45-67" />
                 </div>
                 <div class="form__group">
-                  <label for="regCar" class="form__label">Ваш автомобиль</label>
+                  <label for="regCar" class="form__label">Р’Р°С€ Р°РІС‚РѕРјРѕР±РёР»СЊ</label>
                   <input type="text" id="regCar" name="car" class="form__input" placeholder="Kia K5 2021" />
                 </div>
               </div>
               <div class="form__group">
-                <label for="regPassword" class="form__label">Пароль (от 6 символов) *</label>
-                <input type="password" id="regPassword" name="password" class="form__input" placeholder="Минимум 6 символов" required minlength="6" />
+                <label for="regPassword" class="form__label">РџР°СЂРѕР»СЊ (РѕС‚ 6 СЃРёРјРІРѕР»РѕРІ) *</label>
+                <input type="password" id="regPassword" name="password" class="form__input" placeholder="РњРёРЅРёРјСѓРј 6 СЃРёРјРІРѕР»РѕРІ" required minlength="6" />
               </div>
               <label class="consent-check">
                 <input type="checkbox" name="consent" required checked />
-                <span>Согласен(на) на обработку персональных данных в соответствии с <button type="button" class="link-btn" data-open-privacy>Политикой конфиденциальности (152-ФЗ)</button></span>
+                <span>РЎРѕРіР»Р°СЃРµРЅ(РЅР°) РЅР° РѕР±СЂР°Р±РѕС‚РєСѓ РїРµСЂСЃРѕРЅР°Р»СЊРЅС‹С… РґР°РЅРЅС‹С… РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ <button type="button" class="link-btn" data-open-privacy>РџРѕР»РёС‚РёРєРѕР№ РєРѕРЅС„РёРґРµРЅС†РёР°Р»СЊРЅРѕСЃС‚Рё (152-Р¤Р—)</button></span>
               </label>
-              <button type="submit" class="btn btn--primary btn--full btn--lg" id="regSubmit">Создать аккаунт клиента</button>
+              <button type="submit" class="btn btn--primary btn--full btn--lg" id="regSubmit">РЎРѕР·РґР°С‚СЊ Р°РєРєР°СѓРЅС‚ РєР»РёРµРЅС‚Р°</button>
               <p class="form__status" id="regStatus" role="status"></p>
             </form>
           </div>
 
-          <!-- Демо-аккаунт клиента для быстрого ознакомления -->
+          <!-- Р”РµРјРѕ-Р°РєРєР°СѓРЅС‚ РєР»РёРµРЅС‚Р° РґР»СЏ Р±С‹СЃС‚СЂРѕРіРѕ РѕР·РЅР°РєРѕРјР»РµРЅРёСЏ -->
           <aside class="demo-creds">
             <div>
-              <span class="eyebrow">Демо-доступ</span>
-              <h2 class="panel-card__title" style="margin-bottom: 6px;">Посмотреть личный кабинет</h2>
+              <span class="eyebrow">Р”РµРјРѕ-РґРѕСЃС‚СѓРї</span>
+              <h2 class="panel-card__title" style="margin-bottom: 6px;">РџРѕСЃРјРѕС‚СЂРµС‚СЊ Р»РёС‡РЅС‹Р№ РєР°Р±РёРЅРµС‚</h2>
               <p class="section-desc">
-                Вы можете зарегистрировать собственный аккаунт клиента или воспользоваться тестовой учётной записью, чтобы посмотреть историю заявок и статусы ремонта.
+                Р’С‹ РјРѕР¶РµС‚Рµ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊ СЃРѕР±СЃС‚РІРµРЅРЅС‹Р№ Р°РєРєР°СѓРЅС‚ РєР»РёРµРЅС‚Р° РёР»Рё РІРѕСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ С‚РµСЃС‚РѕРІРѕР№ СѓС‡С‘С‚РЅРѕР№ Р·Р°РїРёСЃСЊСЋ, С‡С‚РѕР±С‹ РїРѕСЃРјРѕС‚СЂРµС‚СЊ РёСЃС‚РѕСЂРёСЋ Р·Р°СЏРІРѕРє Рё СЃС‚Р°С‚СѓСЃС‹ СЂРµРјРѕРЅС‚Р°.
               </p>
             </div>
 
             <div class="demo-creds__box">
               <div class="demo-creds__head">
-                <strong>Тестовый клиент</strong>
-                <span class="role-badge role-badge--user">КЛИЕНТ</span>
+                <strong>РўРµСЃС‚РѕРІС‹Р№ РєР»РёРµРЅС‚</strong>
+                <span class="role-badge role-badge--user">РљР›РР•РќРў</span>
               </div>
               <div class="demo-creds__line mono">Email: client@apex-auto.ru</div>
-              <div class="demo-creds__line mono">Пароль: client12345</div>
-              <button type="button" class="btn btn--outline btn--sm" data-quick-fill="user">Подставить данные клиента</button>
+              <div class="demo-creds__line mono">РџР°СЂРѕР»СЊ: client12345</div>
+              <button type="button" class="btn btn--outline btn--sm" data-quick-fill="user">РџРѕРґСЃС‚Р°РІРёС‚СЊ РґР°РЅРЅС‹Рµ РєР»РёРµРЅС‚Р°</button>
             </div>
           </aside>
         </div>
@@ -118,7 +118,7 @@
   <div id="siteFooter"></div>
 
   <script src="js/data.js"></script>
-  <script src="js/shared.js"></script>
+  <script src="js/shared.js?v=2"></script>
   <script src="js/auth-page.js"></script>
 </body>
 </html>

@@ -1,21 +1,21 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; frame-src https://yandex.ru https://*.yandex.ru https://www.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>Личный кабинет — АПЕКС АВТО</title>
-  <meta name="description" content="Профиль автомобиля и история заявок клиента в техцентре АПЕКС АВТО." />
+  <title>Р›РёС‡РЅС‹Р№ РєР°Р±РёРЅРµС‚ вЂ” РђРџР•РљРЎ РђР’РўРћ</title>
+  <meta name="description" content="РџСЂРѕС„РёР»СЊ Р°РІС‚РѕРјРѕР±РёР»СЏ Рё РёСЃС‚РѕСЂРёСЏ Р·Р°СЏРІРѕРє РєР»РёРµРЅС‚Р° РІ С‚РµС…С†РµРЅС‚СЂРµ РђРџР•РљРЎ РђР’РўРћ." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Личный кабинет — АПЕКС АВТО" />
+  <meta property="og:title" content="Р›РёС‡РЅС‹Р№ РєР°Р±РёРЅРµС‚ вЂ” РђРџР•РљРЎ РђР’РўРћ" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f97316'/%3E%3Cpath d='M44.5 23.5l-6.2 6.2-4-4 6.2-6.2a10 10 0 00-13.2 13.2L16.5 43.5a3 3 0 004.2 4.2l10.8-10.8a10 10 0 0013-13.4z' fill='%23ffffff'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-  <script src="js/theme-init.js"></script>
+  <script src="js/theme-init.js?v=2"></script>
   <link rel="stylesheet" href="css/tokens.css" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=2" />
   <link rel="stylesheet" href="css/app-pages.css" />
 </head>
 <body data-page="account">
@@ -24,16 +24,16 @@
   <main>
     <section class="page-hero">
       <div class="container">
-        <nav class="breadcrumbs" aria-label="Хлебные крошки">
-          <a href="index.html">Главная</a><span>/</span><span>Личный кабинет</span>
+        <nav class="breadcrumbs" aria-label="РҐР»РµР±РЅС‹Рµ РєСЂРѕС€РєРё">
+          <a href="index.html">Р“Р»Р°РІРЅР°СЏ</a><span>/</span><span>Р›РёС‡РЅС‹Р№ РєР°Р±РёРЅРµС‚</span>
         </nav>
         <div class="page-hero__row">
           <div>
-            <h1 class="page-hero__title" id="accountHeading">Личный кабинет</h1>
-            <p class="page-hero__subtitle" id="accountSub">Ваши данные автомобиля и актуальные статусы записей на сервис.</p>
+            <h1 class="page-hero__title" id="accountHeading">Р›РёС‡РЅС‹Р№ РєР°Р±РёРЅРµС‚</h1>
+            <p class="page-hero__subtitle" id="accountSub">Р’Р°С€Рё РґР°РЅРЅС‹Рµ Р°РІС‚РѕРјРѕР±РёР»СЏ Рё Р°РєС‚СѓР°Р»СЊРЅС‹Рµ СЃС‚Р°С‚СѓСЃС‹ Р·Р°РїРёСЃРµР№ РЅР° СЃРµСЂРІРёСЃ.</p>
           </div>
           <div style="display:flex; gap:10px; flex-wrap:wrap;" id="accountHeroActions">
-            <a href="booking.html" class="btn btn--primary">+ Новая запись</a>
+            <a href="booking.html" class="btn btn--primary">+ РќРѕРІР°СЏ Р·Р°РїРёСЃСЊ</a>
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@
         <div class="account-grid">
           <div class="panel-card">
             <div class="panel-card__head">
-              <h2 class="panel-card__title">Профиль и авто</h2>
+              <h2 class="panel-card__title">РџСЂРѕС„РёР»СЊ Рё Р°РІС‚Рѕ</h2>
               <span class="role-badge role-badge--user" id="accountRoleBadge">USER</span>
             </div>
 
@@ -54,29 +54,29 @@
                 <input type="email" id="profEmail" class="form__input mono" disabled />
               </div>
               <div class="form__group">
-                <label for="profName" class="form__label">Имя</label>
+                <label for="profName" class="form__label">РРјСЏ</label>
                 <input type="text" id="profName" class="form__input" required />
               </div>
               <div class="form__group">
-                <label for="profPhone" class="form__label">Телефон</label>
+                <label for="profPhone" class="form__label">РўРµР»РµС„РѕРЅ</label>
                 <input type="tel" id="profPhone" class="form__input mono" placeholder="+7 (999) 123-45-67" />
               </div>
               <div class="form__group">
-                <label for="profCar" class="form__label">Основной автомобиль</label>
-                <input type="text" id="profCar" class="form__input" placeholder="Например, Toyota Camry 2021" />
+                <label for="profCar" class="form__label">РћСЃРЅРѕРІРЅРѕР№ Р°РІС‚РѕРјРѕР±РёР»СЊ</label>
+                <input type="text" id="profCar" class="form__input" placeholder="РќР°РїСЂРёРјРµСЂ, Toyota Camry 2021" />
               </div>
-              <button type="submit" class="btn btn--primary btn--full">Сохранить профиль</button>
+              <button type="submit" class="btn btn--primary btn--full">РЎРѕС…СЂР°РЅРёС‚СЊ РїСЂРѕС„РёР»СЊ</button>
               <p class="form__status" id="profileStatus"></p>
             </form>
           </div>
 
           <div class="panel-card">
             <div class="panel-card__head">
-              <h2 class="panel-card__title">История моих записей</h2>
+              <h2 class="panel-card__title">РСЃС‚РѕСЂРёСЏ РјРѕРёС… Р·Р°РїРёСЃРµР№</h2>
               <span class="mono" id="myBookingsCount" style="color: var(--text-muted); font-size:0.85rem;">0</span>
             </div>
             <div class="booking-list" id="myBookingsList">
-              <p class="section-desc">Загрузка записей...</p>
+              <p class="section-desc">Р—Р°РіСЂСѓР·РєР° Р·Р°РїРёСЃРµР№...</p>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@
   <div id="siteFooter"></div>
 
   <script src="js/data.js"></script>
-  <script src="js/shared.js"></script>
+  <script src="js/shared.js?v=2"></script>
   <script src="js/account.js"></script>
 </body>
 </html>
