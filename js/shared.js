@@ -34,6 +34,37 @@
     return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
   }
 
+  function getCookie(name) {
+    const safeName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const match = document.cookie.match(new RegExp(`(?:^|; )${safeName}=([^;]*)`));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  function setCookie(name, value, maxAgeSec = 31536000) {
+    const sec = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${name}=${encodeURIComponent(String(value))}; Path=/; Max-Age=${maxAgeSec}; SameSite=Lax${sec}`;
+  }
+
+  function deleteCookie(name) {
+    const sec = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${name}=; Path=/; Max-Age=0; SameSite=Lax${sec}`;
+  }
+
+  function applyCookieChoice(choice) {
+    const clean = choice === 'all' ? 'all' : 'essential';
+    setCookie('apex_cookie_consent', clean);
+    try {
+      localStorage.setItem('apex_cookie_consent', clean);
+    } catch {
+      // ignore
+    }
+    if (clean === 'all') {
+      setCookie('apex_prefs', '1', 15552000);
+    } else {
+      deleteCookie('apex_prefs');
+    }
+  }
+
   function getDefaultDemoDb() {
     const d = window.APEX_DATA || {};
     const now = new Date().toISOString();
@@ -747,7 +778,12 @@
         const cur = document.documentElement.getAttribute('data-theme') || 'dark';
         const next = cur === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('apex_theme', next);
+        setCookie('apex_theme', next);
+        try {
+          localStorage.setItem('apex_theme', next);
+        } catch {
+          // ignore
+        }
       });
 
       const burger = document.getElementById('burger');
@@ -799,6 +835,11 @@
               <p><strong>${escapeHtml(phone)}</strong> • ${escapeHtml(s.email || '')}</p>
               <p>${escapeHtml(s.address || '')}</p>
               <p>© ${new Date().getFullYear()} ООО «${escapeHtml(siteName)}». Все права защищены.</p>
+              <p class="footer__legal-links">
+                <button type="button" class="footer-cookie-link" data-open-privacy>Политика и cookie (152-ФЗ)</button>
+                <span aria-hidden="true">•</span>
+                <button type="button" class="footer-cookie-link" data-open-cookies>Настройки cookie</button>
+              </p>
             </div>
           </div>
         </footer>
@@ -821,6 +862,7 @@
     }
 
     updateHeaderEstimateBadges();
+    openCookieBanner(false);
   }
 
   // ==================== ОБЩИЙ ЛАЙТБОКС ДЛЯ КЕЙСОВ ====================
@@ -929,6 +971,7 @@
           </div>
           <div class="privacy-modal__body">
             <p>Настоящим в соответствии с Федеральным законом № 152-ФЗ «О персональных данных» вы даёте согласие техцентру «АПЕКС АВТО» на обработку указанных в форме данных (имя, номер телефона, марка и модель автомобиля) исключительно для обратной связи, расчёта стоимости и записи на обслуживание.</p>
+            <p>Сайт также использует файлы cookie с флагами <span class="mono">SameSite=Lax</span>: технические (<span class="mono">HttpOnly</span>-сессия <span class="mono">apex_sid</span> и выбор <span class="mono">apex_cookie_consent</span>), настройку темы <span class="mono">apex_theme</span> и, при выборе «Принять все», необязательный cookie <span class="mono">apex_prefs</span> (его можно удалить в любой момент через «Настройки cookie»).</p>
             <p>Данные не передаются третьим лицам, за исключением случаев, предусмотренных законодательством РФ. Согласие может быть отозвано в любой момент по письменному или электронному обращению на почту сервиса.</p>
           </div>
         </div>
@@ -944,10 +987,55 @@
     pm.classList.add('is-open');
   }
 
+  function openCookieBanner(force = false) {
+    let saved = getCookie('apex_cookie_consent');
+    if (!saved) {
+      try {
+        saved = localStorage.getItem('apex_cookie_consent');
+      } catch {
+        // ignore
+      }
+    }
+    if (!force && saved) return;
+
+    let cb = document.getElementById('cookieBanner');
+    if (!cb) {
+      cb = document.createElement('div');
+      cb.id = 'cookieBanner';
+      cb.className = 'cookie-banner';
+      cb.setAttribute('role', 'region');
+      cb.setAttribute('aria-label', 'Уведомление об использовании файлов cookie');
+      cb.innerHTML = `
+        <div class="cookie-banner__inner">
+          <p class="cookie-banner__text">
+            Мы используем файлы cookie (техническая сессия, тема оформления и выбор настроек) согласно
+            <button type="button" class="link-inline" data-open-privacy>политике 152-ФЗ</button>.
+          </p>
+          <div class="cookie-banner__actions">
+            <button type="button" class="btn btn--outline btn--sm" data-cookie-choice="essential">Только необходимые</button>
+            <button type="button" class="btn btn--primary btn--sm" data-cookie-choice="all">Принять все</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(cb);
+      cb.querySelectorAll('[data-cookie-choice]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          applyCookieChoice(btn.dataset.cookieChoice);
+          cb.classList.remove('is-open');
+        });
+      });
+    }
+    cb.classList.add('is-open');
+  }
+
   document.addEventListener('click', (e) => {
     if (e.target && e.target.closest && e.target.closest('[data-open-privacy]')) {
       e.preventDefault();
       openPrivacyModal();
+    }
+    if (e.target && e.target.closest && e.target.closest('[data-open-cookies]')) {
+      e.preventDefault();
+      openCookieBanner(true);
     }
   });
 
